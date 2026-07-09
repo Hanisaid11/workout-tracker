@@ -9,3 +9,8 @@ html, body, #root {
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Keep numbers/inputs left-to-right even when the page is RTL (Arabic) */
+input[type="number"], .font-mono {
+  direction: ltr;
+}
