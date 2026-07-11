@@ -215,6 +215,65 @@ const Icons = {
         <line x1="26" y1="24" x2="30" y2="16" />
       </>
     ),
+  calfRaise: () =>
+    wrap(
+      <>
+        <circle cx="24" cy="10" r="3.2" />
+        <path d="M24 13 L24 26" />
+        <path d="M24 26 L18 36" />
+        <path d="M24 26 L30 36" />
+        <line x1="16" y1="40" x2="22" y2="40" />
+        <line x1="28" y1="40" x2="34" y2="40" />
+      </>
+    ),
+  shrug: () =>
+    wrap(
+      <>
+        <circle cx="24" cy="9" r="3.2" />
+        <path d="M14 20 L24 14 L34 20" />
+        <path d="M24 14 L24 30" />
+        <path d="M24 30 L18 40" />
+        <path d="M24 30 L30 40" />
+        <line x1="12" y1="22" x2="12" y2="30" />
+        <line x1="36" y1="22" x2="36" y2="30" />
+      </>
+    ),
+  superman: () =>
+    wrap(
+      <>
+        <line x1="10" y1="24" x2="34" y2="24" />
+        <circle cx="38" cy="20" r="3.2" />
+        <path d="M10 24 L4 18" />
+        <path d="M18 22 L12 16" />
+      </>
+    ),
+  twist: () =>
+    wrap(
+      <>
+        <line x1="12" y1="36" x2="24" y2="36" />
+        <circle cx="24" cy="14" r="3.2" />
+        <path d="M24 17 L20 32" />
+        <path d="M20 22 L10 18" />
+        <path d="M20 22 L30 26" />
+      </>
+    ),
+};
+
+// canonical (English) muscle group -> accent color, used regardless of UI language
+const MUSCLE_COLOR = {
+  Chest: "text-rose-400",
+  Back: "text-emerald-400",
+  Quads: "text-amber-400",
+  "Hamstrings/Glutes": "text-lime-400",
+  Calves: "text-teal-400",
+  "Front Delts": "text-sky-400",
+  "Side Delts": "text-violet-400",
+  "Rear Delts": "text-cyan-400",
+  Biceps: "text-indigo-400",
+  Triceps: "text-fuchsia-400",
+  Traps: "text-pink-400",
+  Abs: "text-orange-400",
+  "Full Body": "text-yellow-400",
 };
 
 // exercise id -> pictogram key
@@ -222,35 +281,66 @@ export const EXERCISE_ICON_MAP = {
   ex_bb_bench: "benchPress",
   ex_db_incline: "inclinePress",
   ex_pullup: "pullUp",
+  ex_chinup: "pullUp",
   ex_db_row: "row",
   ex_bb_row: "row",
+  ex_band_row: "row",
+  ex_renegade_row: "row",
   ex_bb_squat: "squat",
+  ex_db_goblet_squat: "squat",
+  ex_bb_front_squat: "squat",
+  ex_band_squat: "squat",
   ex_db_lunge: "lunge",
+  ex_db_reverse_lunge: "lunge",
+  ex_db_stepup: "lunge",
   ex_bb_rdl: "hinge",
+  ex_db_rdl_single: "hinge",
+  ex_band_good_morning: "hinge",
   ex_db_hipthrust: "hipThrust",
+  ex_glute_bridge: "hipThrust",
   ex_bb_ohp: "overheadPress",
+  ex_db_arnold_press: "overheadPress",
+  ex_pike_pushup: "overheadPress",
+  ex_bb_close_grip_bench: "benchPress",
+  ex_diamond_pushup: "pushUp",
+  ex_decline_pushup: "pushUp",
   ex_db_curl: "curl",
+  ex_db_hammer_curl: "curl",
+  ex_band_curl: "curl",
   ex_dip: "dip",
   ex_db_skull: "skullCrusher",
+  ex_band_tricep_pushdown: "skullCrusher",
+  ex_db_overhead_tricep: "skullCrusher",
   ex_band_pullapart: "rearFly",
   ex_db_rear_fly: "rearFly",
+  ex_band_facepull: "rearFly",
   ex_db_lateral: "lateralRaise",
   ex_band_lateral: "lateralRaise",
   ex_hanging_leg: "hangingLegRaise",
   ex_plank: "plank",
+  ex_side_plank: "plank",
+  ex_mountain_climber: "plank",
   ex_situp: "sitUp",
+  ex_bicycle_crunch: "sitUp",
+  ex_russian_twist: "twist",
   ex_pushup: "pushUp",
+  ex_db_calf_raise: "calfRaise",
+  ex_bb_shrug: "shrug",
+  ex_superman: "superman",
 };
 
-export function ExerciseIcon({ exerciseId, category, className }) {
+export function ExerciseIcon({ exerciseId, category, muscleGroup, className }) {
   const key = EXERCISE_ICON_MAP[exerciseId];
   const Icon = Icons[key];
-  const tint = {
-    large: "text-[#E8B33D]",
-    small: "text-sky-400",
-    sideDelt: "text-violet-400",
-    abs: "text-orange-400",
-  }[category] || "text-white/60";
+  const tint =
+    MUSCLE_COLOR[muscleGroup] ||
+    {
+      large: "text-[#E8B33D]",
+      small: "text-sky-400",
+      sideDelt: "text-violet-400",
+      abs: "text-orange-400",
+    }[category] ||
+    "text-white/60";
 
   return (
     <div className={`${className || "w-10 h-10"} ${tint} shrink-0`}>

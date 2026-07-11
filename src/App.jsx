@@ -17,32 +17,76 @@ const CATEGORIES = [
 ];
 
 const DEFAULT_EXERCISES = [
-  { id: "ex_bb_bench", name: "Barbell Bench Press", nameAr: "بنش بار", equipment: "Barbell", category: "large", muscleGroup: "Chest", muscleGroupAr: "صدر" },
-  { id: "ex_db_incline", name: "DB Incline Press", nameAr: "إنكلاين دمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Chest", muscleGroupAr: "صدر" },
-  { id: "ex_pullup", name: "Pull-Ups", nameAr: "عقلة", equipment: "Pull-up Bar", category: "large", muscleGroup: "Back", muscleGroupAr: "ظهر" },
-  { id: "ex_db_row", name: "DB Bent-Over Row", nameAr: "تجديف دمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Back", muscleGroupAr: "ظهر" },
-  { id: "ex_bb_row", name: "Barbell Row", nameAr: "تجديف بار", equipment: "Barbell", category: "large", muscleGroup: "Back", muscleGroupAr: "ظهر" },
-  { id: "ex_bb_squat", name: "Barbell Back Squat", nameAr: "سكوات بار", equipment: "Barbell", category: "large", muscleGroup: "Quads", muscleGroupAr: "أمامية الفخذ" },
-  { id: "ex_db_lunge", name: "DB Walking Lunge", nameAr: "لنجز دمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "أمامية الفخذ" },
-  { id: "ex_bb_rdl", name: "Barbell RDL", nameAr: "رومانيان ديدليفت", equipment: "Barbell", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "خلفية الفخذ/مؤخرة" },
-  { id: "ex_db_hipthrust", name: "DB Hip Thrust", nameAr: "هيب ثراست دمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "خلفية الفخذ/مؤخرة" },
-  { id: "ex_bb_ohp", name: "Barbell Overhead Press", nameAr: "بريس كتف بار", equipment: "Barbell", category: "small", muscleGroup: "Front Delts", muscleGroupAr: "كتف أمامي" },
-  { id: "ex_db_curl", name: "DB Bicep Curl", nameAr: "بايسبس دمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Biceps", muscleGroupAr: "باي" },
-  { id: "ex_dip", name: "Bench Dips", nameAr: "ديبس على البنش", equipment: "Bodyweight", category: "small", muscleGroup: "Triceps", muscleGroupAr: "تراي" },
-  { id: "ex_db_skull", name: "DB Skull Crusher", nameAr: "سكال كراشر دمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Triceps", muscleGroupAr: "تراي" },
-  { id: "ex_band_pullapart", name: "Band Pull-Apart", nameAr: "شد حبل مطاطي", equipment: "Bands", category: "small", muscleGroup: "Rear Delts", muscleGroupAr: "كتف خلفي" },
-  { id: "ex_db_rear_fly", name: "DB Rear Delt Fly", nameAr: "رير دلت فلاي دمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Rear Delts", muscleGroupAr: "كتف خلفي" },
-  { id: "ex_db_lateral", name: "DB Lateral Raise", nameAr: "رفرفة جانبية دمبل", equipment: "Dumbbells", category: "sideDelt", muscleGroup: "Side Delts", muscleGroupAr: "كتف جانبي" },
-  { id: "ex_band_lateral", name: "Band Lateral Raise", nameAr: "رفرفة جانبية بالحبل", equipment: "Bands", category: "sideDelt", muscleGroup: "Side Delts", muscleGroupAr: "كتف جانبي" },
-  { id: "ex_hanging_leg", name: "Hanging Leg Raise", nameAr: "رفع أرجل معلق", equipment: "Pull-up Bar", category: "abs", muscleGroup: "Abs", muscleGroupAr: "بطن" },
-  { id: "ex_plank", name: "Plank", nameAr: "بلانك", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "بطن" },
-  { id: "ex_situp", name: "Weighted Sit-Up", nameAr: "سيت أب بوزن", equipment: "Dumbbells", category: "abs", muscleGroup: "Abs", muscleGroupAr: "بطن" },
-  { id: "ex_pushup", name: "Push-Ups", nameAr: "ضغط", equipment: "Bodyweight", category: "large", muscleGroup: "Chest", muscleGroupAr: "صدر" },
+  // Chest
+  { id: "ex_bb_bench", name: "Barbell Bench Press", nameAr: "ضغط البار الأفقي", equipment: "Barbell", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+  { id: "ex_db_incline", name: "DB Incline Press", nameAr: "ضغط الدمبل المائل", equipment: "Dumbbells", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+  { id: "ex_bb_close_grip_bench", name: "Close-Grip Bench Press", nameAr: "ضغط البار بقبضة ضيقة", equipment: "Barbell", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+  { id: "ex_pushup", name: "Push-Ups", nameAr: "تمرين الضغط الأرضي", equipment: "Bodyweight", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+  { id: "ex_diamond_pushup", name: "Diamond Push-Ups", nameAr: "الضغط الماسي", equipment: "Bodyweight", category: "small", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+  { id: "ex_decline_pushup", name: "Decline Push-Ups", nameAr: "الضغط المنحدر", equipment: "Bench", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+
+  // Back
+  { id: "ex_pullup", name: "Pull-Ups", nameAr: "العقلة", equipment: "Pull-up Bar", category: "large", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+  { id: "ex_chinup", name: "Chin-Ups", nameAr: "العقلة بقبضة معكوسة", equipment: "Pull-up Bar", category: "large", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+  { id: "ex_db_row", name: "DB Bent-Over Row", nameAr: "التجديف بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+  { id: "ex_bb_row", name: "Barbell Row", nameAr: "التجديف بالبار", equipment: "Barbell", category: "large", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+  { id: "ex_band_row", name: "Band Seated Row", nameAr: "التجديف الجالس بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+  { id: "ex_renegade_row", name: "DB Renegade Row", nameAr: "تجديف الدمبل في وضعية الضغط", equipment: "Dumbbells", category: "small", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+  { id: "ex_bb_shrug", name: "Barbell Shrug", nameAr: "رفع الكتفين بالبار", equipment: "Barbell", category: "small", muscleGroup: "Traps", muscleGroupAr: "العضلة شبه المنحرفة" },
+  { id: "ex_superman", name: "Superman Hold", nameAr: "تمرين السوبرمان", equipment: "Bodyweight", category: "small", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+
+  // Legs
+  { id: "ex_bb_squat", name: "Barbell Back Squat", nameAr: "القرفصاء بالبار", equipment: "Barbell", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_bb_front_squat", name: "Barbell Front Squat", nameAr: "القرفصاء الأمامية بالبار", equipment: "Barbell", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_db_goblet_squat", name: "DB Goblet Squat", nameAr: "قرفصاء الكأس بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_band_squat", name: "Band Squat", nameAr: "القرفصاء بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_db_lunge", name: "DB Walking Lunge", nameAr: "الاندفاع الأمامي المتحرك بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_db_reverse_lunge", name: "DB Reverse Lunge", nameAr: "الاندفاع الخلفي بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_db_stepup", name: "DB Box Step-Up", nameAr: "الصعود على المقعد بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_bb_rdl", name: "Barbell RDL", nameAr: "الرفع الميت الروماني بالبار", equipment: "Barbell", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_db_rdl_single", name: "Single-Leg DB RDL", nameAr: "الرفع الميت الروماني بالدمبل على رجل واحدة", equipment: "Dumbbells", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_band_good_morning", name: "Band Good Morning", nameAr: "تمرين الانحناء الصباحي بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_db_hipthrust", name: "DB Hip Thrust", nameAr: "دفع الحوض بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_glute_bridge", name: "Bodyweight Glute Bridge", nameAr: "جسر الأرداف بوزن الجسم", equipment: "Bodyweight", category: "small", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_db_calf_raise", name: "DB Calf Raise", nameAr: "رفع السمانة بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Calves", muscleGroupAr: "السمانة" },
+
+  // Shoulders (front / overhead)
+  { id: "ex_bb_ohp", name: "Barbell Overhead Press", nameAr: "الضغط العلوي بالبار", equipment: "Barbell", category: "small", muscleGroup: "Front Delts", muscleGroupAr: "الكتف الأمامي" },
+  { id: "ex_db_arnold_press", name: "DB Arnold Press", nameAr: "ضغط أرنولد بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Front Delts", muscleGroupAr: "الكتف الأمامي" },
+  { id: "ex_pike_pushup", name: "Pike Push-Up", nameAr: "ضغط الحمامة", equipment: "Bodyweight", category: "small", muscleGroup: "Front Delts", muscleGroupAr: "الكتف الأمامي" },
+
+  // Arms
+  { id: "ex_db_curl", name: "DB Bicep Curl", nameAr: "تجعيد العضلة ذات الرأسين بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Biceps", muscleGroupAr: "العضلة ذات الرأسين" },
+  { id: "ex_db_hammer_curl", name: "DB Hammer Curl", nameAr: "تجعيد المطرقة بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Biceps", muscleGroupAr: "العضلة ذات الرأسين" },
+  { id: "ex_band_curl", name: "Band Bicep Curl", nameAr: "تجعيد الذراع بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Biceps", muscleGroupAr: "العضلة ذات الرأسين" },
+  { id: "ex_dip", name: "Bench Dips", nameAr: "ثني الذراعين على المقعد", equipment: "Bodyweight", category: "small", muscleGroup: "Triceps", muscleGroupAr: "العضلة ثلاثية الرؤوس" },
+  { id: "ex_db_skull", name: "DB Skull Crusher", nameAr: "كسارة الجماجم بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Triceps", muscleGroupAr: "العضلة ثلاثية الرؤوس" },
+  { id: "ex_db_overhead_tricep", name: "DB Overhead Triceps Extension", nameAr: "مد الذراع العلوي بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Triceps", muscleGroupAr: "العضلة ثلاثية الرؤوس" },
+  { id: "ex_band_tricep_pushdown", name: "Band Triceps Pushdown", nameAr: "دفع الذراع لأسفل بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Triceps", muscleGroupAr: "العضلة ثلاثية الرؤوس" },
+
+  // Rear delts
+  { id: "ex_band_pullapart", name: "Band Pull-Apart", nameAr: "شدّ الحبل المطاطي للخلف", equipment: "Bands", category: "small", muscleGroup: "Rear Delts", muscleGroupAr: "الكتف الخلفي" },
+  { id: "ex_db_rear_fly", name: "DB Rear Delt Fly", nameAr: "طيران الكتف الخلفي بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Rear Delts", muscleGroupAr: "الكتف الخلفي" },
+  { id: "ex_band_facepull", name: "Band Face Pull", nameAr: "السحب نحو الوجه بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Rear Delts", muscleGroupAr: "الكتف الخلفي" },
+
+  // Side delts
+  { id: "ex_db_lateral", name: "DB Lateral Raise", nameAr: "الرفع الجانبي بالدمبل", equipment: "Dumbbells", category: "sideDelt", muscleGroup: "Side Delts", muscleGroupAr: "الكتف الجانبي" },
+  { id: "ex_band_lateral", name: "Band Lateral Raise", nameAr: "الرفع الجانبي بالحبل المطاطي", equipment: "Bands", category: "sideDelt", muscleGroup: "Side Delts", muscleGroupAr: "الكتف الجانبي" },
+
+  // Abs
+  { id: "ex_hanging_leg", name: "Hanging Leg Raise", nameAr: "رفع الأرجل معلقًا", equipment: "Pull-up Bar", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_plank", name: "Plank", nameAr: "تمرين البلانك", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_side_plank", name: "Side Plank", nameAr: "البلانك الجانبي", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_situp", name: "Weighted Sit-Up", nameAr: "تمرين الجلوس بثقل إضافي", equipment: "Dumbbells", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_bicycle_crunch", name: "Bicycle Crunch", nameAr: "تمرين البطن الدرّاجة", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_russian_twist", name: "Russian Twist", nameAr: "الالتفاف الروسي", equipment: "Dumbbells", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_mountain_climber", name: "Mountain Climbers", nameAr: "تسلّق الجبل", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
 ];
 
-// 6-day full body split (Fri = rest). Weekly totals per category hit ~20 large / ~12 small / ~16 sideDelt / ~20 abs.
+// 6-day full body split — week starts Saturday, Friday is the rest day.
+// Weekly totals per category hit ~20 large / ~12 small / ~16 sideDelt / ~20 abs.
 const DEFAULT_TEMPLATE = [
-  { id: "day_mon", label: "Day 1 · Mon", labelAr: "يوم 1 · إتنين", exercises: [
+  { id: "day_sat", label: "Day 1 · Sat", labelAr: "اليوم الأول · السبت", exercises: [
     { exerciseId: "ex_bb_bench", targetSets: 4, targetReps: 8 },
     { exerciseId: "ex_pullup", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_bb_squat", targetSets: 4, targetReps: 8 },
@@ -50,7 +94,7 @@ const DEFAULT_TEMPLATE = [
     { exerciseId: "ex_db_curl", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_hanging_leg", targetSets: 4, targetReps: 12 },
   ]},
-  { id: "day_tue", label: "Day 2 · Tue", labelAr: "يوم 2 · تلات", exercises: [
+  { id: "day_sun", label: "Day 2 · Sun", labelAr: "اليوم الثاني · الأحد", exercises: [
     { exerciseId: "ex_db_row", targetSets: 4, targetReps: 10 },
     { exerciseId: "ex_bb_rdl", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_bb_ohp", targetSets: 3, targetReps: 8 },
@@ -58,7 +102,7 @@ const DEFAULT_TEMPLATE = [
     { exerciseId: "ex_dip", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_plank", targetSets: 3, targetReps: 45 },
   ]},
-  { id: "day_wed", label: "Day 3 · Wed", labelAr: "يوم 3 · أربع", exercises: [
+  { id: "day_mon", label: "Day 3 · Mon", labelAr: "اليوم الثالث · الاثنين", exercises: [
     { exerciseId: "ex_db_incline", targetSets: 3, targetReps: 10 },
     { exerciseId: "ex_bb_row", targetSets: 4, targetReps: 8 },
     { exerciseId: "ex_db_lunge", targetSets: 3, targetReps: 10 },
@@ -66,7 +110,7 @@ const DEFAULT_TEMPLATE = [
     { exerciseId: "ex_band_pullapart", targetSets: 2, targetReps: 15 },
     { exerciseId: "ex_situp", targetSets: 4, targetReps: 15 },
   ]},
-  { id: "day_thu", label: "Day 4 · Thu", labelAr: "يوم 4 · خميس", exercises: [
+  { id: "day_tue", label: "Day 4 · Tue", labelAr: "اليوم الرابع · الثلاثاء", exercises: [
     { exerciseId: "ex_pushup", targetSets: 4, targetReps: 15 },
     { exerciseId: "ex_pullup", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_db_hipthrust", targetSets: 4, targetReps: 10 },
@@ -74,7 +118,7 @@ const DEFAULT_TEMPLATE = [
     { exerciseId: "ex_db_skull", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_hanging_leg", targetSets: 4, targetReps: 12 },
   ]},
-  { id: "day_sat", label: "Day 5 · Sat", labelAr: "يوم 5 · سبت", exercises: [
+  { id: "day_wed", label: "Day 5 · Wed", labelAr: "اليوم الخامس · الأربعاء", exercises: [
     { exerciseId: "ex_bb_bench", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_db_row", targetSets: 3, targetReps: 10 },
     { exerciseId: "ex_bb_squat", targetSets: 3, targetReps: 8 },
@@ -82,7 +126,7 @@ const DEFAULT_TEMPLATE = [
     { exerciseId: "ex_db_rear_fly", targetSets: 2, targetReps: 15 },
     { exerciseId: "ex_plank", targetSets: 3, targetReps: 45 },
   ]},
-  { id: "day_sun", label: "Day 6 · Sun", labelAr: "يوم 6 · حد", exercises: [
+  { id: "day_thu", label: "Day 6 · Thu", labelAr: "اليوم السادس · الخميس", exercises: [
     { exerciseId: "ex_bb_ohp", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_bb_row", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_bb_rdl", targetSets: 3, targetReps: 8 },
@@ -276,7 +320,7 @@ function LibraryModal({ open, onClose, library, setLibrary, lang }) {
         <div className="overflow-y-auto flex-1 p-5 space-y-2">
           {library.map((ex) => (
             <div key={ex.id} className="flex items-center gap-3 bg-[#14151A] rounded-lg px-3 py-2 border border-white/5">
-              <ExerciseIcon exerciseId={ex.id} category={ex.category} className="w-8 h-8" />
+              <ExerciseIcon exerciseId={ex.id} category={ex.category} muscleGroup={ex.muscleGroup} className="w-8 h-8" />
               <div className="min-w-0 flex-1">
                 <div className="text-sm text-white font-medium truncate">{localizedName(ex, lang)}</div>
                 <div className="flex items-center gap-1.5 mt-0.5">
@@ -336,7 +380,7 @@ function ExercisePicker({ open, onClose, library, onPick, lang }) {
               onClick={() => { onPick(ex); onClose(); }}
               className="w-full text-left flex items-center gap-3 bg-[#14151A] hover:bg-[#262933] rounded-lg px-3 py-2.5 border border-white/5 transition"
             >
-              <ExerciseIcon exerciseId={ex.id} category={ex.category} className="w-8 h-8" />
+              <ExerciseIcon exerciseId={ex.id} category={ex.category} muscleGroup={ex.muscleGroup} className="w-8 h-8" />
               <span className="text-sm text-white flex-1">{localizedName(ex, lang)}</span>
               <CategoryPill category={ex.category} lang={lang} />
             </button>
@@ -361,7 +405,7 @@ function ExerciseCard({ item, exercise, session, updateSet, onSwap, onRemove, on
     <div className={`rounded-xl border ${allDone ? "border-emerald-500/30" : "border-white/10"} bg-[#1E2027] overflow-hidden`}>
       <button onClick={() => setOpen((o) => !o)} className="w-full flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3 min-w-0">
-          <ExerciseIcon exerciseId={exercise.id} category={exercise.category} className="w-10 h-10" />
+          <ExerciseIcon exerciseId={exercise.id} category={exercise.category} muscleGroup={exercise.muscleGroup} className="w-10 h-10" />
           <div className={`w-2 h-2 rounded-full shrink-0 ${allDone ? "bg-emerald-400" : "bg-white/20"}`} />
           <div className="min-w-0 text-left">
             <div className="text-sm font-semibold text-white truncate">{localizedName(exercise, lang)}</div>
@@ -410,8 +454,10 @@ function ExerciseCard({ item, exercise, session, updateSet, onSwap, onRemove, on
                   </div>
                   <button
                     onClick={() => updateSet(i, "completed", !set.completed)}
-                    className={`w-7 h-7 rounded-lg flex items-center justify-center border transition ${
-                      set.completed ? "bg-[#E8B33D] border-[#E8B33D] text-[#14151A]" : "border-white/15 text-transparent"
+                    className={`w-7 h-7 rounded-lg flex items-center justify-center border-2 transition ${
+                      set.completed
+                        ? "bg-[#E8B33D] border-[#E8B33D] text-[#14151A]"
+                        : "bg-white/[0.04] border-white/25 text-transparent"
                     }`}
                   >
                     <Check size={14} />
