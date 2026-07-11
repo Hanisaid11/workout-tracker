@@ -5,7 +5,7 @@ import React from "react";
    clearly at small sizes and carry no copyright/likeness concerns. */
 
 const wrap = (children) => (
-  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
     {children}
   </svg>
 );
@@ -15,7 +15,7 @@ const Icons = {
     wrap(
       <>
         <line x1="6" y1="32" x2="34" y2="32" />
-        <circle cx="10" cy="24" r="3.2" />
+        <circle cx="10" cy="24" r="3.4" fill="currentColor" />
         <path d="M13 27 L20 32" />
         <path d="M20 32 L20 40" />
         <path d="M20 32 L28 32" />
@@ -29,7 +29,7 @@ const Icons = {
     wrap(
       <>
         <line x1="6" y1="34" x2="22" y2="20" />
-        <circle cx="20" cy="16" r="3.2" />
+        <circle cx="20" cy="16" r="3.4" fill="currentColor" />
         <path d="M22 20 L20 30 L20 40" />
         <path d="M20 26 L30 12" />
         <line x1="24" y1="8" x2="38" y2="8" />
@@ -41,7 +41,7 @@ const Icons = {
     wrap(
       <>
         <line x1="8" y1="8" x2="40" y2="8" />
-        <circle cx="24" cy="16" r="3.2" />
+        <circle cx="24" cy="16" r="3.4" fill="currentColor" />
         <path d="M15 9 L24 19 L33 9" />
         <path d="M24 19 L24 30" />
         <path d="M24 30 L18 40" />
@@ -51,7 +51,7 @@ const Icons = {
   row: () =>
     wrap(
       <>
-        <circle cx="12" cy="14" r="3.2" />
+        <circle cx="12" cy="14" r="3.4" fill="currentColor" />
         <path d="M13 17 L20 26" />
         <path d="M20 26 L34 30" />
         <path d="M20 26 L16 40" />
@@ -63,7 +63,7 @@ const Icons = {
   squat: () =>
     wrap(
       <>
-        <circle cx="24" cy="10" r="3.2" />
+        <circle cx="24" cy="10" r="3.4" fill="currentColor" />
         <line x1="14" y1="13" x2="34" y2="13" />
         <line x1="14" y1="9" x2="14" y2="17" />
         <line x1="34" y1="9" x2="34" y2="17" />
@@ -75,7 +75,7 @@ const Icons = {
   lunge: () =>
     wrap(
       <>
-        <circle cx="20" cy="10" r="3.2" />
+        <circle cx="20" cy="10" r="3.4" fill="currentColor" />
         <path d="M20 13 L22 26" />
         <path d="M22 26 L12 40" />
         <path d="M22 26 L34 34 L30 42" />
@@ -86,7 +86,7 @@ const Icons = {
   hinge: () =>
     wrap(
       <>
-        <circle cx="12" cy="16" r="3.2" />
+        <circle cx="12" cy="16" r="3.4" fill="currentColor" />
         <path d="M13 19 L26 26" />
         <path d="M26 26 L20 40" />
         <path d="M26 26 L36 34" />
@@ -100,7 +100,7 @@ const Icons = {
     wrap(
       <>
         <line x1="4" y1="34" x2="16" y2="34" />
-        <circle cx="8" cy="26" r="3.2" />
+        <circle cx="8" cy="26" r="3.4" fill="currentColor" />
         <path d="M9 29 L20 34" />
         <path d="M20 34 L34 22" />
         <path d="M20 34 L24 40" />
@@ -110,7 +110,7 @@ const Icons = {
   overheadPress: () =>
     wrap(
       <>
-        <circle cx="24" cy="10" r="3.2" />
+        <circle cx="24" cy="10" r="3.4" fill="currentColor" />
         <line x1="24" y1="13" x2="24" y2="30" />
         <path d="M24 30 L18 40" />
         <path d="M24 30 L30 40" />
@@ -123,12 +123,12 @@ const Icons = {
   curl: () =>
     wrap(
       <>
-        <circle cx="24" cy="8" r="3.2" />
+        <circle cx="24" cy="8" r="3.4" fill="currentColor" />
         <line x1="24" y1="11" x2="24" y2="28" />
         <path d="M24 28 L18 40" />
         <path d="M24 28 L30 40" />
         <path d="M24 15 L32 15 L28 6" />
-        <circle cx="27" cy="5" r="2.6" />
+        <circle cx="27" cy="5" r="2.8" fill="currentColor" />
       </>
     ),
   dip: () =>
@@ -136,7 +136,7 @@ const Icons = {
       <>
         <line x1="10" y1="10" x2="10" y2="30" />
         <line x1="38" y1="10" x2="38" y2="30" />
-        <circle cx="24" cy="14" r="3.2" />
+        <circle cx="24" cy="14" r="3.4" fill="currentColor" />
         <path d="M24 17 L20 26" />
         <path d="M20 26 L10 20" />
         <path d="M20 26 L38 20" />
@@ -148,7 +148,7 @@ const Icons = {
     wrap(
       <>
         <line x1="6" y1="34" x2="34" y2="34" />
-        <circle cx="10" cy="26" r="3.2" />
+        <circle cx="10" cy="26" r="3.4" fill="currentColor" />
         <path d="M13 29 L22 34" />
         <path d="M22 34 L20 22" />
         <path d="M20 22 L28 22" />
@@ -158,7 +158,7 @@ const Icons = {
   rearFly: () =>
     wrap(
       <>
-        <circle cx="14" cy="14" r="3.2" />
+        <circle cx="14" cy="14" r="3.4" fill="currentColor" />
         <path d="M15 17 L26 24" />
         <path d="M26 24 L20 40" />
         <path d="M20 22 L8 16" />
@@ -168,7 +168,7 @@ const Icons = {
   lateralRaise: () =>
     wrap(
       <>
-        <circle cx="24" cy="8" r="3.2" />
+        <circle cx="24" cy="8" r="3.4" fill="currentColor" />
         <line x1="24" y1="11" x2="24" y2="28" />
         <path d="M24 28 L18 40" />
         <path d="M24 28 L30 40" />
@@ -180,7 +180,7 @@ const Icons = {
     wrap(
       <>
         <line x1="8" y1="8" x2="40" y2="8" />
-        <circle cx="24" cy="14" r="3.2" />
+        <circle cx="24" cy="14" r="3.4" fill="currentColor" />
         <path d="M20 9 L24 17 L28 9" />
         <path d="M24 17 L24 26" />
         <path d="M24 26 L16 20" />
@@ -191,7 +191,7 @@ const Icons = {
     wrap(
       <>
         <line x1="6" y1="30" x2="38" y2="18" />
-        <circle cx="38" cy="14" r="3.2" />
+        <circle cx="38" cy="14" r="3.4" fill="currentColor" />
         <line x1="10" y1="34" x2="6" y2="26" />
         <line x1="20" y1="27" x2="20" y2="36" />
       </>
@@ -200,7 +200,7 @@ const Icons = {
     wrap(
       <>
         <line x1="6" y1="34" x2="26" y2="34" />
-        <circle cx="30" cy="26" r="3.2" />
+        <circle cx="30" cy="26" r="3.4" fill="currentColor" />
         <path d="M27 28 L18 32" />
         <path d="M18 32 L18 24 L26 20" />
         <path d="M18 32 L10 28" />
@@ -210,7 +210,7 @@ const Icons = {
     wrap(
       <>
         <line x1="6" y1="30" x2="38" y2="18" />
-        <circle cx="38" cy="14" r="3.2" />
+        <circle cx="38" cy="14" r="3.4" fill="currentColor" />
         <line x1="12" y1="32" x2="16" y2="24" />
         <line x1="26" y1="24" x2="30" y2="16" />
       </>
@@ -218,7 +218,7 @@ const Icons = {
   calfRaise: () =>
     wrap(
       <>
-        <circle cx="24" cy="10" r="3.2" />
+        <circle cx="24" cy="10" r="3.4" fill="currentColor" />
         <path d="M24 13 L24 26" />
         <path d="M24 26 L18 36" />
         <path d="M24 26 L30 36" />
@@ -229,7 +229,7 @@ const Icons = {
   shrug: () =>
     wrap(
       <>
-        <circle cx="24" cy="9" r="3.2" />
+        <circle cx="24" cy="9" r="3.4" fill="currentColor" />
         <path d="M14 20 L24 14 L34 20" />
         <path d="M24 14 L24 30" />
         <path d="M24 30 L18 40" />
@@ -242,7 +242,7 @@ const Icons = {
     wrap(
       <>
         <line x1="10" y1="24" x2="34" y2="24" />
-        <circle cx="38" cy="20" r="3.2" />
+        <circle cx="38" cy="20" r="3.4" fill="currentColor" />
         <path d="M10 24 L4 18" />
         <path d="M18 22 L12 16" />
       </>
@@ -251,7 +251,7 @@ const Icons = {
     wrap(
       <>
         <line x1="12" y1="36" x2="24" y2="36" />
-        <circle cx="24" cy="14" r="3.2" />
+        <circle cx="24" cy="14" r="3.4" fill="currentColor" />
         <path d="M24 17 L20 32" />
         <path d="M20 22 L10 18" />
         <path d="M20 22 L30 26" />
@@ -276,9 +276,33 @@ const MUSCLE_COLOR = {
   "Full Body": "text-yellow-400",
 };
 
+// same palette, as card-background / border / icon-chip tint classes
+const MUSCLE_STYLE = {
+  Chest: { text: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/25", chip: "bg-rose-500/15" },
+  Back: { text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/25", chip: "bg-emerald-500/15" },
+  Quads: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/25", chip: "bg-amber-500/15" },
+  "Hamstrings/Glutes": { text: "text-lime-400", bg: "bg-lime-500/10", border: "border-lime-500/25", chip: "bg-lime-500/15" },
+  Calves: { text: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/25", chip: "bg-teal-500/15" },
+  "Front Delts": { text: "text-sky-400", bg: "bg-sky-500/10", border: "border-sky-500/25", chip: "bg-sky-500/15" },
+  "Side Delts": { text: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-500/25", chip: "bg-violet-500/15" },
+  "Rear Delts": { text: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/25", chip: "bg-cyan-500/15" },
+  Biceps: { text: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/25", chip: "bg-indigo-500/15" },
+  Triceps: { text: "text-fuchsia-400", bg: "bg-fuchsia-500/10", border: "border-fuchsia-500/25", chip: "bg-fuchsia-500/15" },
+  Traps: { text: "text-pink-400", bg: "bg-pink-500/10", border: "border-pink-500/25", chip: "bg-pink-500/15" },
+  Abs: { text: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/25", chip: "bg-orange-500/15" },
+  "Full Body": { text: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/25", chip: "bg-yellow-500/15" },
+};
+
+const FALLBACK_STYLE = { text: "text-white/60", bg: "bg-[#1E2027]", border: "border-white/10", chip: "bg-white/10" };
+
+export function getMuscleStyle(muscleGroup) {
+  return MUSCLE_STYLE[muscleGroup] || FALLBACK_STYLE;
+}
+
 // exercise id -> pictogram key
 export const EXERCISE_ICON_MAP = {
   ex_bb_bench: "benchPress",
+  ex_db_bench: "benchPress",
   ex_db_incline: "inclinePress",
   ex_pullup: "pullUp",
   ex_chinup: "pullUp",
@@ -329,22 +353,29 @@ export const EXERCISE_ICON_MAP = {
   ex_superman: "superman",
 };
 
-export function ExerciseIcon({ exerciseId, category, muscleGroup, className }) {
+export function ExerciseIcon({ exerciseId, category, muscleGroup, className, chip = true }) {
   const key = EXERCISE_ICON_MAP[exerciseId];
   const Icon = Icons[key];
-  const tint =
-    MUSCLE_COLOR[muscleGroup] ||
-    {
-      large: "text-[#E8B33D]",
-      small: "text-sky-400",
-      sideDelt: "text-violet-400",
-      abs: "text-orange-400",
-    }[category] ||
-    "text-white/60";
+  const style = MUSCLE_STYLE[muscleGroup] || {
+    text:
+      {
+        large: "text-[#E8B33D]",
+        small: "text-sky-400",
+        sideDelt: "text-violet-400",
+        abs: "text-orange-400",
+      }[category] || "text-white/60",
+    chip: "bg-white/10",
+  };
+
+  const icon = Icon ? Icon() : wrap(<circle cx="24" cy="24" r="14" />);
+
+  if (!chip) {
+    return <div className={`${className || "w-10 h-10"} ${style.text} shrink-0`}>{icon}</div>;
+  }
 
   return (
-    <div className={`${className || "w-10 h-10"} ${tint} shrink-0`}>
-      {Icon ? Icon() : wrap(<circle cx="24" cy="24" r="14" />)}
+    <div className={`${className || "w-10 h-10"} ${style.chip} ${style.text} shrink-0 rounded-xl p-1.5 flex items-center justify-center`}>
+      {icon}
     </div>
   );
 }

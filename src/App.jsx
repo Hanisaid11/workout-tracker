@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { Plus, Minus, Check, ChevronDown, ChevronUp, Dumbbell, Library, X, TrendingUp, TrendingDown, RotateCcw, Trash2, Pencil, Languages } from "lucide-react";
+import { Plus, Minus, Check, ChevronDown, ChevronUp, Dumbbell, Library, X, TrendingUp, TrendingDown, RotateCcw, Trash2, Pencil, Languages, Settings } from "lucide-react";
 import { loadKey, saveKey } from "./storage.js";
 import { t, localizedName, localizedMuscleGroup, localizedDayLabel } from "./i18n.js";
-import { ExerciseIcon } from "./exerciseIcons.jsx";
+import { ExerciseIcon, getMuscleStyle } from "./exerciseIcons.jsx";
 
 /* ---------------------------------------------------------------
    DEFAULT DATA
@@ -16,9 +16,29 @@ const CATEGORIES = [
   { id: "abs", label: "Abs" },
 ];
 
+// Weekday helpers for the configurable schedule (JS getDay convention: 0=Sun..6=Sat)
+const WEEKDAY_ORDER_FROM_SAT = [6, 0, 1, 2, 3, 4, 5]; // Sat, Sun, Mon, Tue, Wed, Thu, Fri
+const WEEKDAY_NAMES_EN = { 0: "Sun", 1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat" };
+const WEEKDAY_NAMES_AR = { 0: "الأحد", 1: "الاثنين", 2: "الثلاثاء", 3: "الأربعاء", 4: "الخميس", 5: "الجمعة", 6: "السبت" };
+const ORDINAL_EN = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6"];
+const ORDINAL_AR = ["اليوم الأول", "اليوم الثاني", "اليوم الثالث", "اليوم الرابع", "اليوم الخامس", "اليوم السادس"];
+const DEFAULT_DAY_SETTINGS = { count: 6, restWeekday: 5 }; // 5 = Friday
+
+function getTrainingWeekdays(daySettings) {
+  const order = WEEKDAY_ORDER_FROM_SAT.filter((d) => d !== daySettings.restWeekday);
+  return order.slice(0, daySettings.count);
+}
+
+function getDayLabel(index, weekday, lang) {
+  const ordinal = (lang === "ar" ? ORDINAL_AR : ORDINAL_EN)[index] || `${lang === "ar" ? "اليوم" : "Day"} ${index + 1}`;
+  const weekdayName = (lang === "ar" ? WEEKDAY_NAMES_AR : WEEKDAY_NAMES_EN)[weekday];
+  return `${ordinal} · ${weekdayName}`;
+}
+
 const DEFAULT_EXERCISES = [
   // Chest
   { id: "ex_bb_bench", name: "Barbell Bench Press", nameAr: "ضغط البار الأفقي", equipment: "Barbell", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+  { id: "ex_db_bench", name: "DB Flat Bench Press", nameAr: "ضغط الدمبل الأفقي", equipment: "Dumbbells", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
   { id: "ex_db_incline", name: "DB Incline Press", nameAr: "ضغط الدمبل المائل", equipment: "Dumbbells", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
   { id: "ex_bb_close_grip_bench", name: "Close-Grip Bench Press", nameAr: "ضغط البار بقبضة ضيقة", equipment: "Barbell", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
   { id: "ex_pushup", name: "Push-Ups", nameAr: "تمرين الضغط الأرضي", equipment: "Bodyweight", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
@@ -84,12 +104,13 @@ const DEFAULT_EXERCISES = [
 ];
 
 // 6-day full body split — week starts Saturday, Friday is the rest day.
-// Weekly totals per category hit ~20 large / ~12 small / ~16 sideDelt / ~20 abs.
+// Equipment priority: Dumbbells / Pull-up Bar / Bands first, Barbell used sparingly.
+// Weekly totals per category land near ~20 large / ~12 small / ~16 sideDelt / ~20 abs.
 const DEFAULT_TEMPLATE = [
   { id: "day_sat", label: "Day 1 · Sat", labelAr: "اليوم الأول · السبت", exercises: [
-    { exerciseId: "ex_bb_bench", targetSets: 4, targetReps: 8 },
+    { exerciseId: "ex_db_incline", targetSets: 4, targetReps: 8 },
     { exerciseId: "ex_pullup", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_bb_squat", targetSets: 4, targetReps: 8 },
+    { exerciseId: "ex_db_goblet_squat", targetSets: 4, targetReps: 10 },
     { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
     { exerciseId: "ex_db_curl", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_hanging_leg", targetSets: 4, targetReps: 12 },
@@ -97,14 +118,14 @@ const DEFAULT_TEMPLATE = [
   { id: "day_sun", label: "Day 2 · Sun", labelAr: "اليوم الثاني · الأحد", exercises: [
     { exerciseId: "ex_db_row", targetSets: 4, targetReps: 10 },
     { exerciseId: "ex_bb_rdl", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_bb_ohp", targetSets: 3, targetReps: 8 },
+    { exerciseId: "ex_db_arnold_press", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_band_lateral", targetSets: 3, targetReps: 15 },
     { exerciseId: "ex_dip", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_plank", targetSets: 3, targetReps: 45 },
   ]},
   { id: "day_mon", label: "Day 3 · Mon", labelAr: "اليوم الثالث · الاثنين", exercises: [
-    { exerciseId: "ex_db_incline", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_bb_row", targetSets: 4, targetReps: 8 },
+    { exerciseId: "ex_db_bench", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_chinup", targetSets: 4, targetReps: 8 },
     { exerciseId: "ex_db_lunge", targetSets: 3, targetReps: 10 },
     { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
     { exerciseId: "ex_band_pullapart", targetSets: 2, targetReps: 15 },
@@ -114,24 +135,24 @@ const DEFAULT_TEMPLATE = [
     { exerciseId: "ex_pushup", targetSets: 4, targetReps: 15 },
     { exerciseId: "ex_pullup", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_db_hipthrust", targetSets: 4, targetReps: 10 },
-    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_band_lateral", targetSets: 3, targetReps: 15 },
     { exerciseId: "ex_db_skull", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_hanging_leg", targetSets: 4, targetReps: 12 },
   ]},
   { id: "day_wed", label: "Day 5 · Wed", labelAr: "اليوم الخامس · الأربعاء", exercises: [
-    { exerciseId: "ex_bb_bench", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_row", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_bb_squat", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_band_lateral", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_incline", targetSets: 3, targetReps: 8 },
+    { exerciseId: "ex_band_row", targetSets: 4, targetReps: 12 },
+    { exerciseId: "ex_db_reverse_lunge", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
     { exerciseId: "ex_db_rear_fly", targetSets: 2, targetReps: 15 },
     { exerciseId: "ex_plank", targetSets: 3, targetReps: 45 },
   ]},
   { id: "day_thu", label: "Day 6 · Thu", labelAr: "اليوم السادس · الخميس", exercises: [
-    { exerciseId: "ex_bb_ohp", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_bb_row", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_bb_rdl", targetSets: 3, targetReps: 8 },
+    { exerciseId: "ex_db_arnold_press", targetSets: 3, targetReps: 8 },
+    { exerciseId: "ex_chinup", targetSets: 3, targetReps: 8 },
+    { exerciseId: "ex_db_rdl_single", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_db_lateral", targetSets: 4, targetReps: 15 },
-    { exerciseId: "ex_db_curl", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_hammer_curl", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_situp", targetSets: 4, targetReps: 15 },
   ]},
 ];
@@ -318,29 +339,32 @@ function LibraryModal({ open, onClose, library, setLibrary, lang }) {
         </div>
 
         <div className="overflow-y-auto flex-1 p-5 space-y-2">
-          {library.map((ex) => (
-            <div key={ex.id} className="flex items-center gap-3 bg-[#14151A] rounded-lg px-3 py-2 border border-white/5">
-              <ExerciseIcon exerciseId={ex.id} category={ex.category} muscleGroup={ex.muscleGroup} className="w-8 h-8" />
-              <div className="min-w-0 flex-1">
-                <div className="text-sm text-white font-medium truncate">{localizedName(ex, lang)}</div>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <CategoryPill category={ex.category} lang={lang} />
-                  <span className="text-[10px] text-white/40">{ex.equipment} · {localizedMuscleGroup(ex, lang)}</span>
+          {library.map((ex) => {
+            const style = getMuscleStyle(ex.muscleGroup);
+            return (
+              <div key={ex.id} className={`flex items-center gap-3 rounded-lg px-3 py-2 border ${style.bg} ${style.border}`}>
+                <ExerciseIcon exerciseId={ex.id} category={ex.category} muscleGroup={ex.muscleGroup} className="w-9 h-9" />
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm text-white font-medium truncate">{localizedName(ex, lang)}</div>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <CategoryPill category={ex.category} lang={lang} />
+                    <span className="text-[10px] text-white/40">{ex.equipment} · {localizedMuscleGroup(ex, lang)}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 shrink-0">
+                  <button onClick={() => startEdit(ex)} className="p-1.5 text-white/40 hover:text-white">
+                    <Pencil size={14} />
+                  </button>
+                  <button
+                    onClick={() => setLibrary((lib) => lib.filter((e) => e.id !== ex.id))}
+                    className="p-1.5 text-white/40 hover:text-rose-400"
+                  >
+                    <Trash2 size={14} />
+                  </button>
                 </div>
               </div>
-              <div className="flex items-center gap-1 shrink-0">
-                <button onClick={() => startEdit(ex)} className="p-1.5 text-white/40 hover:text-white">
-                  <Pencil size={14} />
-                </button>
-                <button
-                  onClick={() => setLibrary((lib) => lib.filter((e) => e.id !== ex.id))}
-                  className="p-1.5 text-white/40 hover:text-rose-400"
-                >
-                  <Trash2 size={14} />
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
@@ -350,6 +374,66 @@ function LibraryModal({ open, onClose, library, setLibrary, lang }) {
 /* ---------------------------------------------------------------
    SWAP / ADD EXERCISE PICKER (in-session)
 --------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------
+   SETTINGS MODAL (training days per week + rest day)
+--------------------------------------------------------------- */
+
+function SettingsModal({ open, onClose, daySettings, setDaySettings, lang }) {
+  if (!open) return null;
+  const weekdayNames = lang === "ar" ? WEEKDAY_NAMES_AR : WEEKDAY_NAMES_EN;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/70 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="bg-[#1E2027] w-full sm:max-w-sm sm:rounded-2xl rounded-t-2xl border border-white/10">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+          <h2 className="font-bold tracking-wide uppercase text-sm text-white flex items-center gap-2">
+            <Settings size={16} className="text-[#E8B33D]" /> {t(lang, "settings")}
+          </h2>
+          <button onClick={onClose} className="text-white/50 hover:text-white">
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="p-5 space-y-5">
+          <div>
+            <label className="text-xs text-white/50 font-semibold block mb-2">{t(lang, "trainingDaysLabel")}</label>
+            <div className="flex gap-2">
+              {[3, 4, 5, 6].map((n) => (
+                <button
+                  key={n}
+                  onClick={() => setDaySettings((d) => ({ ...d, count: n }))}
+                  className={`flex-1 py-2 rounded-lg text-sm font-bold border transition ${
+                    daySettings.count === n
+                      ? "bg-[#E8B33D] border-[#E8B33D] text-[#14151A]"
+                      : "border-white/10 text-white/60"
+                  }`}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs text-white/50 font-semibold block mb-2">{t(lang, "restDayLabel")}</label>
+            <select
+              value={daySettings.restWeekday}
+              onChange={(e) => setDaySettings((d) => ({ ...d, restWeekday: Number(e.target.value) }))}
+              className="w-full bg-[#14151A] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#E8B33D]"
+            >
+              {[0, 1, 2, 3, 4, 5, 6].map((wd) => (
+                <option key={wd} value={wd}>{weekdayNames[wd]}</option>
+              ))}
+            </select>
+          </div>
+
+          <p className="text-[11px] text-white/30 leading-relaxed">{t(lang, "settingsHint")}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ExercisePicker({ open, onClose, library, onPick, lang }) {
   const [q, setQ] = useState("");
@@ -374,17 +458,20 @@ function ExercisePicker({ open, onClose, library, onPick, lang }) {
           />
         </div>
         <div className="overflow-y-auto flex-1 p-3 space-y-1.5">
-          {filtered.map((ex) => (
-            <button
-              key={ex.id}
-              onClick={() => { onPick(ex); onClose(); }}
-              className="w-full text-left flex items-center gap-3 bg-[#14151A] hover:bg-[#262933] rounded-lg px-3 py-2.5 border border-white/5 transition"
-            >
-              <ExerciseIcon exerciseId={ex.id} category={ex.category} muscleGroup={ex.muscleGroup} className="w-8 h-8" />
-              <span className="text-sm text-white flex-1">{localizedName(ex, lang)}</span>
-              <CategoryPill category={ex.category} lang={lang} />
-            </button>
-          ))}
+          {filtered.map((ex) => {
+            const style = getMuscleStyle(ex.muscleGroup);
+            return (
+              <button
+                key={ex.id}
+                onClick={() => { onPick(ex); onClose(); }}
+                className={`w-full text-left flex items-center gap-3 rounded-lg px-3 py-2.5 border transition hover:brightness-125 ${style.bg} ${style.border}`}
+              >
+                <ExerciseIcon exerciseId={ex.id} category={ex.category} muscleGroup={ex.muscleGroup} className="w-9 h-9" />
+                <span className="text-sm text-white flex-1">{localizedName(ex, lang)}</span>
+                <CategoryPill category={ex.category} lang={lang} />
+              </button>
+            );
+          })}
           {filtered.length === 0 && <p className="text-center text-white/30 text-sm py-6">{t(lang, "noMatches")}</p>}
         </div>
       </div>
@@ -400,12 +487,13 @@ function ExerciseCard({ item, exercise, session, updateSet, onSwap, onRemove, on
   const [open, setOpen] = useState(true);
   if (!exercise) return null;
   const allDone = session.sets.length > 0 && session.sets.every((s) => s.completed);
+  const style = getMuscleStyle(exercise.muscleGroup);
 
   return (
-    <div className={`rounded-xl border ${allDone ? "border-emerald-500/30" : "border-white/10"} bg-[#1E2027] overflow-hidden`}>
+    <div className={`rounded-xl border ${allDone ? "border-emerald-500/40" : style.border} ${style.bg} overflow-hidden`}>
       <button onClick={() => setOpen((o) => !o)} className="w-full flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3 min-w-0">
-          <ExerciseIcon exerciseId={exercise.id} category={exercise.category} muscleGroup={exercise.muscleGroup} className="w-10 h-10" />
+          <ExerciseIcon exerciseId={exercise.id} category={exercise.category} muscleGroup={exercise.muscleGroup} className="w-12 h-12" />
           <div className={`w-2 h-2 rounded-full shrink-0 ${allDone ? "bg-emerald-400" : "bg-white/20"}`} />
           <div className="min-w-0 text-left">
             <div className="text-sm font-semibold text-white truncate">{localizedName(exercise, lang)}</div>
@@ -502,23 +590,27 @@ export default function App() {
   const [activeDayId, setActiveDayId] = useState(DEFAULT_TEMPLATE[0].id);
   const [session, setSession] = useState({});
   const [libraryOpen, setLibraryOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [pickerTarget, setPickerTarget] = useState(null); // { mode: 'swap'|'add', exerciseId }
   const [toast, setToast] = useState("");
   const [lang, setLang] = useState("en");
+  const [daySettings, setDaySettings] = useState(DEFAULT_DAY_SETTINGS);
 
   // initial load
   useEffect(() => {
     (async () => {
-      const [lib, tmpl, storedLogs, storedLang] = await Promise.all([
+      const [lib, tmpl, storedLogs, storedLang, storedDaySettings] = await Promise.all([
         loadKey("exercise-library", DEFAULT_EXERCISES),
         loadKey("workout-template", DEFAULT_TEMPLATE),
         loadKey("workout-logs", []),
         loadKey("language", "en"),
+        loadKey("day-settings", DEFAULT_DAY_SETTINGS),
       ]);
       setLibrary(lib);
       setTemplate(tmpl);
       setLogs(storedLogs);
       setLang(storedLang);
+      setDaySettings(storedDaySettings);
       setLoading(false);
     })();
   }, []);
@@ -528,12 +620,32 @@ export default function App() {
   useEffect(() => { if (!loading) saveKey("workout-template", template); }, [template, loading]);
   useEffect(() => { if (!loading) saveKey("workout-logs", logs); }, [logs, loading]);
   useEffect(() => { if (!loading) saveKey("language", lang); }, [lang, loading]);
+  useEffect(() => { if (!loading) saveKey("day-settings", daySettings); }, [daySettings, loading]);
 
   // flip document direction for Arabic
   useEffect(() => {
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
     document.documentElement.lang = lang;
   }, [lang]);
+
+  // visible training days derived from settings (truncate/reorder the 6 base day templates)
+  const visibleDays = useMemo(() => {
+    const weekdays = getTrainingWeekdays(daySettings);
+    return template.slice(0, daySettings.count).map((d, i) => ({
+      ...d,
+      weekday: weekdays[i],
+      computedLabel: getDayLabel(i, weekdays[i], "en"),
+      computedLabelAr: getDayLabel(i, weekdays[i], "ar"),
+    }));
+  }, [template, daySettings]);
+
+  // keep the active day valid if the day count shrinks
+  useEffect(() => {
+    if (loading) return;
+    if (!visibleDays.find((d) => d.id === activeDayId) && visibleDays.length > 0) {
+      setActiveDayId(visibleDays[0].id);
+    }
+  }, [visibleDays, activeDayId, loading]);
 
   const activeDay = template.find((d) => d.id === activeDayId);
 
@@ -642,12 +754,19 @@ export default function App() {
               >
                 <Library size={14} /> {t(lang, "library")}
               </button>
+              <button
+                onClick={() => setSettingsOpen(true)}
+                className="flex items-center gap-1.5 bg-[#1E2027] border border-white/10 rounded-lg px-2.5 py-2 text-xs font-semibold text-white/70 hover:text-white"
+                title={t(lang, "settings")}
+              >
+                <Settings size={14} />
+              </button>
             </div>
           </div>
 
           {/* Day selector */}
           <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-4 px-4 no-scrollbar">
-            {template.map((d) => (
+            {visibleDays.map((d) => (
               <button
                 key={d.id}
                 onClick={() => setActiveDayId(d.id)}
@@ -655,11 +774,11 @@ export default function App() {
                   d.id === activeDayId ? "bg-[#E8B33D] text-[#14151A]" : "bg-[#1E2027] text-white/50 border border-white/10"
                 }`}
               >
-                {localizedDayLabel(d, lang)}
+                {lang === "ar" ? d.computedLabelAr : d.computedLabel}
               </button>
             ))}
             <div className="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide bg-transparent border border-dashed border-white/15 text-white/30">
-              {t(lang, "friRest")}
+              {(lang === "ar" ? WEEKDAY_NAMES_AR : WEEKDAY_NAMES_EN)[daySettings.restWeekday]} · {lang === "ar" ? "راحة" : "Rest"}
             </div>
           </div>
 
@@ -719,6 +838,14 @@ export default function App() {
       )}
 
       <LibraryModal open={libraryOpen} onClose={() => setLibraryOpen(false)} library={library} setLibrary={setLibrary} lang={lang} />
+
+      <SettingsModal
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        daySettings={daySettings}
+        setDaySettings={setDaySettings}
+        lang={lang}
+      />
 
       <ExercisePicker
         open={!!pickerTarget}

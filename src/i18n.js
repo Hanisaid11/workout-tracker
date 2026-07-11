@@ -31,6 +31,10 @@ export const STRINGS = {
     categorySmall: "SMALL",
     categorySideDelt: "SIDE DELT",
     categoryAbs: "ABS",
+    settings: "Settings",
+    trainingDaysLabel: "Training days per week",
+    restDayLabel: "Rest day",
+    settingsHint: "Changes apply to the day tabs above. Your logged history stays exactly as it was.",
   },
   ar: {
     appEyebrow: "تمرين كامل الجسم · برنامج ستة أيام",
@@ -64,6 +68,10 @@ export const STRINGS = {
     categorySmall: "عضلات صغيرة",
     categorySideDelt: "الكتف الجانبي",
     categoryAbs: "البطن",
+    settings: "الإعدادات",
+    trainingDaysLabel: "عدد أيام التمرين في الأسبوع",
+    restDayLabel: "يوم الراحة",
+    settingsHint: "يتم تطبيق التغييرات على أيام التمرين أعلاه، وسجلّ التمارين المحفوظ سابقًا يبقى كما هو.",
   },
 };
 
