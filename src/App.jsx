@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Plus, Minus, Check, ChevronDown, ChevronUp, Dumbbell, Library, X, TrendingUp, TrendingDown, RotateCcw, Trash2, Pencil, Languages, Settings } from "lucide-react";
 import { loadKey, saveKey } from "./storage.js";
 import { t, localizedName, localizedMuscleGroup, localizedDayLabel } from "./i18n.js";
@@ -101,6 +101,90 @@ const DEFAULT_EXERCISES = [
   { id: "ex_bicycle_crunch", name: "Bicycle Crunch", nameAr: "تمرين البطن الدرّاجة", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
   { id: "ex_russian_twist", name: "Russian Twist", nameAr: "الالتفاف الروسي", equipment: "Dumbbells", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
   { id: "ex_mountain_climber", name: "Mountain Climbers", nameAr: "تسلّق الجبل", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_reverse_crunch", name: "Reverse Crunch", nameAr: "تمرين البطن العكسي", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_vup", name: "V-Up", nameAr: "تمرين الطية", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_flutter_kicks", name: "Flutter Kicks", nameAr: "ركلات الرفرفة", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_dead_bug", name: "Dead Bug", nameAr: "تمرين الحشرة الميتة", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_hollow_hold", name: "Hollow Body Hold", nameAr: "تمرين الجسم المجوف", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_band_pallof", name: "Band Pallof Press", nameAr: "ضغط بالوف بالحبل المطاطي", equipment: "Bands", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_toe_touch", name: "Toe Touches", nameAr: "لمس أصابع القدم", equipment: "Bodyweight", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_side_bend", name: "DB Side Bend", nameAr: "الانحناء الجانبي بالدمبل", equipment: "Dumbbells", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+  { id: "ex_db_situp_incline", name: "Incline Bench Sit-Up", nameAr: "تمرين الجلوس على مقعد مائل", equipment: "Bench", category: "abs", muscleGroup: "Abs", muscleGroupAr: "البطن" },
+
+  // more Chest
+  { id: "ex_db_flat_fly", name: "DB Flat Fly", nameAr: "فتح الصدر بالدمبل مستلقيًا", equipment: "Dumbbells", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+  { id: "ex_db_incline_fly", name: "DB Incline Fly", nameAr: "فتح الصدر المائل بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+  { id: "ex_band_chest_press", name: "Band Chest Press", nameAr: "ضغط الصدر بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+  { id: "ex_wide_pushup", name: "Wide Push-Up", nameAr: "ضغط بقبضة واسعة", equipment: "Bodyweight", category: "small", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+  { id: "ex_archer_pushup", name: "Archer Push-Up", nameAr: "ضغط الرامي", equipment: "Bodyweight", category: "small", muscleGroup: "Chest", muscleGroupAr: "الصدر" },
+
+  // more Back
+  { id: "ex_db_single_arm_row", name: "Single-Arm DB Row", nameAr: "التجديف بالدمبل بذراع واحدة", equipment: "Dumbbells", category: "large", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+  { id: "ex_band_lat_pulldown", name: "Band Lat Pulldown", nameAr: "السحب العلوي بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+  { id: "ex_db_pullover", name: "DB Pullover", nameAr: "السحب فوق الرأس بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+  { id: "ex_inverted_row", name: "Inverted Row", nameAr: "التجديف المقلوب", equipment: "Pull-up Bar", category: "large", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+  { id: "ex_band_straight_arm_pulldown", name: "Band Straight-Arm Pulldown", nameAr: "السحب بذراع مستقيمة بالحبل", equipment: "Bands", category: "small", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+
+  // more Quads
+  { id: "ex_bb_sumo_squat", name: "Barbell Sumo Squat", nameAr: "قرفصاء السومو بالبار", equipment: "Barbell", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_db_sumo_squat", name: "DB Sumo Squat", nameAr: "قرفصاء السومو بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_cossack_squat", name: "Cossack Squat", nameAr: "قرفصاء القوزاق", equipment: "Bodyweight", category: "small", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_wall_sit", name: "Wall Sit", nameAr: "الجلوس على الحائط", equipment: "Bodyweight", category: "small", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_jump_squat", name: "Jump Squat", nameAr: "قفزة القرفصاء", equipment: "Bodyweight", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_db_curtsy_lunge", name: "DB Curtsy Lunge", nameAr: "اندفاع الانحناء بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_db_lateral_lunge", name: "DB Lateral Lunge", nameAr: "الاندفاع الجانبي بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_band_leg_extension", name: "Band Leg Extension", nameAr: "بسط الساق بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+
+  // more Hamstrings/Glutes
+  { id: "ex_db_sumo_deadlift", name: "DB Sumo Deadlift", nameAr: "الرفع الميت سومو بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_bb_deadlift", name: "Barbell Deadlift", nameAr: "الرفع الميت بالبار", equipment: "Barbell", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_band_pull_through", name: "Band Pull-Through", nameAr: "السحب بين الرجلين بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_single_leg_glute_bridge", name: "Single-Leg Glute Bridge", nameAr: "جسر الأرداف برجل واحدة", equipment: "Bodyweight", category: "small", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_db_step_down", name: "DB Step-Down", nameAr: "النزول عن المقعد بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_reverse_hyper", name: "Bench Reverse Hyperextension", nameAr: "مد الظهر العكسي على المقعد", equipment: "Bench", category: "small", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+
+  // more Calves
+  { id: "ex_bw_calf_raise", name: "Bodyweight Calf Raise", nameAr: "رفع السمانة بوزن الجسم", equipment: "Bodyweight", category: "small", muscleGroup: "Calves", muscleGroupAr: "السمانة" },
+  { id: "ex_single_leg_calf_raise", name: "Single-Leg Calf Raise", nameAr: "رفع السمانة برجل واحدة", equipment: "Bodyweight", category: "small", muscleGroup: "Calves", muscleGroupAr: "السمانة" },
+  { id: "ex_seated_db_calf_raise", name: "Seated DB Calf Raise", nameAr: "رفع السمانة الجالس بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Calves", muscleGroupAr: "السمانة" },
+
+  // more Front Delts
+  { id: "ex_db_seated_press", name: "DB Seated Shoulder Press", nameAr: "ضغط الكتف الجالس بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Front Delts", muscleGroupAr: "الكتف الأمامي" },
+  { id: "ex_band_shoulder_press", name: "Band Shoulder Press", nameAr: "ضغط الكتف بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Front Delts", muscleGroupAr: "الكتف الأمامي" },
+  { id: "ex_db_single_arm_press", name: "Single-Arm DB Press", nameAr: "ضغط الكتف بذراع واحدة بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Front Delts", muscleGroupAr: "الكتف الأمامي" },
+  { id: "ex_db_front_raise", name: "DB Front Raise", nameAr: "الرفع الأمامي بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Front Delts", muscleGroupAr: "الكتف الأمامي" },
+
+  // more Side Delts
+  { id: "ex_db_seated_lateral", name: "Seated DB Lateral Raise", nameAr: "الرفع الجانبي الجالس بالدمبل", equipment: "Dumbbells", category: "sideDelt", muscleGroup: "Side Delts", muscleGroupAr: "الكتف الجانبي" },
+  { id: "ex_db_leaning_lateral", name: "Leaning DB Lateral Raise", nameAr: "الرفع الجانبي بالانحناء بالدمبل", equipment: "Dumbbells", category: "sideDelt", muscleGroup: "Side Delts", muscleGroupAr: "الكتف الجانبي" },
+  { id: "ex_band_overhead_lateral", name: "Band Overhead Lateral Raise", nameAr: "الرفع الجانبي العلوي بالحبل المطاطي", equipment: "Bands", category: "sideDelt", muscleGroup: "Side Delts", muscleGroupAr: "الكتف الجانبي" },
+
+  // more Rear Delts
+  { id: "ex_bench_reverse_fly", name: "Bench-Supported Reverse Fly", nameAr: "طيران الكتف الخلفي على المقعد", equipment: "Bench", category: "small", muscleGroup: "Rear Delts", muscleGroupAr: "الكتف الخلفي" },
+  { id: "ex_band_reverse_fly_standing", name: "Standing Band Reverse Fly", nameAr: "طيران الكتف الخلفي واقفًا بالحبل", equipment: "Bands", category: "small", muscleGroup: "Rear Delts", muscleGroupAr: "الكتف الخلفي" },
+
+  // more Biceps
+  { id: "ex_db_concentration_curl", name: "DB Concentration Curl", nameAr: "تجعيد التركيز بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Biceps", muscleGroupAr: "العضلة ذات الرأسين" },
+  { id: "ex_db_incline_curl", name: "DB Incline Curl", nameAr: "تجعيد الذراع المائل بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Biceps", muscleGroupAr: "العضلة ذات الرأسين" },
+  { id: "ex_db_zottman_curl", name: "DB Zottman Curl", nameAr: "تجعيد زوتمان بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Biceps", muscleGroupAr: "العضلة ذات الرأسين" },
+  { id: "ex_bench_preacher_curl", name: "Bench Preacher Curl", nameAr: "تجعيد الواعظ على المقعد", equipment: "Bench", category: "small", muscleGroup: "Biceps", muscleGroupAr: "العضلة ذات الرأسين" },
+  { id: "ex_bb_curl", name: "Barbell Bicep Curl", nameAr: "تجعيد الذراع بالبار", equipment: "Barbell", category: "small", muscleGroup: "Biceps", muscleGroupAr: "العضلة ذات الرأسين" },
+
+  // more Triceps
+  { id: "ex_db_kickback", name: "DB Triceps Kickback", nameAr: "ركل الذراع الخلفي بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Triceps", muscleGroupAr: "العضلة ثلاثية الرؤوس" },
+  { id: "ex_close_grip_pushup", name: "Close-Grip Push-Up", nameAr: "ضغط أرضي بقبضة ضيقة", equipment: "Bodyweight", category: "small", muscleGroup: "Triceps", muscleGroupAr: "العضلة ثلاثية الرؤوس" },
+  { id: "ex_band_overhead_ext", name: "Band Overhead Triceps Extension", nameAr: "مد الذراع العلوي بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Triceps", muscleGroupAr: "العضلة ثلاثية الرؤوس" },
+  { id: "ex_bench_dip_weighted", name: "Weighted Bench Dip", nameAr: "غطس المقعد بثقل إضافي", equipment: "Dumbbells", category: "small", muscleGroup: "Triceps", muscleGroupAr: "العضلة ثلاثية الرؤوس" },
+
+  // more Traps
+  { id: "ex_db_shrug", name: "DB Shrug", nameAr: "رفع الكتفين بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Traps", muscleGroupAr: "العضلة شبه المنحرفة" },
+  { id: "ex_band_shrug", name: "Band Shrug", nameAr: "رفع الكتفين بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Traps", muscleGroupAr: "العضلة شبه المنحرفة" },
+
+  // Full Body / functional
+  { id: "ex_burpee", name: "Burpee", nameAr: "تمرين البيربي", equipment: "Bodyweight", category: "large", muscleGroup: "Full Body", muscleGroupAr: "كامل الجسم" },
+  { id: "ex_bear_crawl", name: "Bear Crawl", nameAr: "زحف الدب", equipment: "Bodyweight", category: "small", muscleGroup: "Full Body", muscleGroupAr: "كامل الجسم" },
+  { id: "ex_farmers_carry", name: "DB Farmer's Carry", nameAr: "حمل المزارع بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Full Body", muscleGroupAr: "كامل الجسم" },
+  { id: "ex_db_thruster", name: "DB Thruster", nameAr: "تمرين الدفع الأمامي بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Full Body", muscleGroupAr: "كامل الجسم" },
 ];
 
 // 6-day full body split — week starts Saturday, Friday is the rest day.
@@ -483,7 +567,7 @@ function ExercisePicker({ open, onClose, library, onPick, lang }) {
    EXERCISE CARD (within a session)
 --------------------------------------------------------------- */
 
-function ExerciseCard({ item, exercise, session, updateSet, onSwap, onRemove, onAddSet, lang }) {
+function ExerciseCard({ item, exercise, session, updateSet, onSwap, onRemove, onAddSet, onRemoveSet, onMoveUp, onMoveDown, isFirst, isLast, lang }) {
   const [open, setOpen] = useState(true);
   if (!exercise) return null;
   const allDone = session.sets.length > 0 && session.sets.every((s) => s.completed);
@@ -491,8 +575,8 @@ function ExerciseCard({ item, exercise, session, updateSet, onSwap, onRemove, on
 
   return (
     <div className={`rounded-xl border ${allDone ? "border-emerald-500/40" : style.border} ${style.bg} overflow-hidden`}>
-      <button onClick={() => setOpen((o) => !o)} className="w-full flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-3 min-w-0">
+      <div className="w-full flex items-center justify-between px-4 py-3">
+        <button onClick={() => setOpen((o) => !o)} className="flex items-center gap-3 min-w-0 flex-1 text-left">
           <ExerciseIcon exerciseId={exercise.id} category={exercise.category} muscleGroup={exercise.muscleGroup} className="w-12 h-12" />
           <div className={`w-2 h-2 rounded-full shrink-0 ${allDone ? "bg-emerald-400" : "bg-white/20"}`} />
           <div className="min-w-0 text-left">
@@ -502,9 +586,27 @@ function ExerciseCard({ item, exercise, session, updateSet, onSwap, onRemove, on
               <span className="text-[10px] text-white/40">{exercise.equipment}</span>
             </div>
           </div>
+          {open ? <ChevronUp size={16} className="text-white/30 shrink-0 ml-1" /> : <ChevronDown size={16} className="text-white/30 shrink-0 ml-1" />}
+        </button>
+        <div className="flex items-center gap-0.5 shrink-0">
+          <button
+            onClick={onMoveUp}
+            disabled={isFirst}
+            className={`p-1.5 rounded ${isFirst ? "text-white/15" : "text-white/40 hover:text-white"}`}
+            title={t(lang, "moveUp")}
+          >
+            <ChevronUp size={16} />
+          </button>
+          <button
+            onClick={onMoveDown}
+            disabled={isLast}
+            className={`p-1.5 rounded ${isLast ? "text-white/15" : "text-white/40 hover:text-white"}`}
+            title={t(lang, "moveDown")}
+          >
+            <ChevronDown size={16} />
+          </button>
         </div>
-        {open ? <ChevronUp size={16} className="text-white/40 shrink-0" /> : <ChevronDown size={16} className="text-white/40 shrink-0" />}
-      </button>
+      </div>
 
       {open && (
         <div className="px-4 pb-4">
@@ -558,6 +660,15 @@ function ExerciseCard({ item, exercise, session, updateSet, onSwap, onRemove, on
           <div className="flex items-center gap-2 mt-6">
             <button onClick={onAddSet} className="flex items-center gap-1 text-[11px] text-white/50 hover:text-white px-2 py-1">
               <Plus size={12} /> {t(lang, "addSet")}
+            </button>
+            <button
+              onClick={onRemoveSet}
+              disabled={session.sets.length <= 1}
+              className={`flex items-center gap-1 text-[11px] px-2 py-1 ${
+                session.sets.length <= 1 ? "text-white/15" : "text-white/50 hover:text-white"
+              }`}
+            >
+              <Minus size={12} /> {t(lang, "removeSet")}
             </button>
             <button onClick={onSwap} className="flex items-center gap-1 text-[11px] text-white/50 hover:text-white px-2 py-1 ml-auto">
               <RotateCcw size={12} /> {t(lang, "swap")}
@@ -647,15 +758,32 @@ export default function App() {
     }
   }, [visibleDays, activeDayId, loading]);
 
+  // on first load only, open the tab matching today's actual weekday (if it's a training day)
+  const didInitToday = useRef(false);
+  useEffect(() => {
+    if (loading || didInitToday.current || visibleDays.length === 0) return;
+    const todayWeekday = new Date().getDay(); // 0=Sun..6=Sat
+    const match = visibleDays.find((d) => d.weekday === todayWeekday);
+    if (match) setActiveDayId(match.id);
+    didInitToday.current = true;
+  }, [loading, visibleDays]);
+
   const activeDay = template.find((d) => d.id === activeDayId);
 
   const libraryMap = useMemo(() => Object.fromEntries(library.map((e) => [e.id, e])), [library]);
 
-  // rebuild session (auto-fill) when day or logs change
+  // signature of *which* exercises are in today's session (order-independent) —
+  // used so reordering exercises doesn't wipe in-progress typed values
+  const activeDayExerciseSignature = useMemo(
+    () => (activeDay ? activeDay.exercises.map((e) => e.exerciseId).slice().sort().join(",") : ""),
+    [activeDay]
+  );
+
+  // rebuild session (auto-fill) when day, logs, or the set of exercises changes
   useEffect(() => {
     if (loading || !activeDay) return;
     setSession(buildSessionState(activeDay, logs));
-  }, [activeDayId, loading, logs, template]);
+  }, [activeDayId, loading, logs, activeDayExerciseSignature]);
 
   const updateSet = useCallback((exerciseId, index, field, value) => {
     setSession((prev) => {
@@ -671,6 +799,28 @@ export default function App() {
       const last = ex.sets[ex.sets.length - 1];
       return { ...prev, [exerciseId]: { ...ex, sets: [...ex.sets, { reps: last?.reps ?? 8, weight: last?.weight ?? 0, completed: false }] } };
     });
+  };
+
+  const removeSet = (exerciseId) => {
+    setSession((prev) => {
+      const ex = prev[exerciseId];
+      if (!ex || ex.sets.length <= 1) return prev;
+      return { ...prev, [exerciseId]: { ...ex, sets: ex.sets.slice(0, -1) } };
+    });
+  };
+
+  const moveExercise = (exerciseId, direction) => {
+    setTemplate((prev) =>
+      prev.map((d) => {
+        if (d.id !== activeDayId) return d;
+        const idx = d.exercises.findIndex((e) => e.exerciseId === exerciseId);
+        const swapIdx = idx + direction;
+        if (idx === -1 || swapIdx < 0 || swapIdx >= d.exercises.length) return d;
+        const next = [...d.exercises];
+        [next[idx], next[swapIdx]] = [next[swapIdx], next[idx]];
+        return { ...d, exercises: next };
+      })
+    );
   };
 
   const removeExercise = (exerciseId) => {
@@ -797,7 +947,7 @@ export default function App() {
 
       {/* Exercise list */}
       <div className="max-w-lg mx-auto px-4 pt-5 space-y-3">
-        {activeDay?.exercises.map((item) => (
+        {activeDay?.exercises.map((item, idx) => (
           <ExerciseCard
             key={item.exerciseId}
             item={item}
@@ -805,6 +955,11 @@ export default function App() {
             session={session[item.exerciseId] ?? { sets: [], lastSets: null, lastDate: null }}
             updateSet={(i, field, value) => updateSet(item.exerciseId, i, field, value)}
             onAddSet={() => addSet(item.exerciseId)}
+            onRemoveSet={() => removeSet(item.exerciseId)}
+            onMoveUp={() => moveExercise(item.exerciseId, -1)}
+            onMoveDown={() => moveExercise(item.exerciseId, 1)}
+            isFirst={idx === 0}
+            isLast={idx === activeDay.exercises.length - 1}
             onSwap={() => setPickerTarget({ mode: "swap", exerciseId: item.exerciseId })}
             onRemove={() => removeExercise(item.exerciseId)}
             lang={lang}

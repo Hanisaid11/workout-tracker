@@ -351,6 +351,92 @@ export const EXERCISE_ICON_MAP = {
   ex_db_calf_raise: "calfRaise",
   ex_bb_shrug: "shrug",
   ex_superman: "superman",
+
+  // abs additions
+  ex_reverse_crunch: "sitUp",
+  ex_vup: "sitUp",
+  ex_flutter_kicks: "plank",
+  ex_dead_bug: "plank",
+  ex_hollow_hold: "plank",
+  ex_band_pallof: "twist",
+  ex_toe_touch: "sitUp",
+  ex_side_bend: "twist",
+  ex_db_situp_incline: "sitUp",
+
+  // chest additions
+  ex_db_flat_fly: "benchPress",
+  ex_db_incline_fly: "inclinePress",
+  ex_band_chest_press: "benchPress",
+  ex_wide_pushup: "pushUp",
+  ex_archer_pushup: "pushUp",
+
+  // back additions
+  ex_db_single_arm_row: "row",
+  ex_band_lat_pulldown: "pullUp",
+  ex_db_pullover: "row",
+  ex_inverted_row: "row",
+  ex_band_straight_arm_pulldown: "rearFly",
+
+  // quad additions
+  ex_bb_sumo_squat: "squat",
+  ex_db_sumo_squat: "squat",
+  ex_cossack_squat: "lunge",
+  ex_wall_sit: "squat",
+  ex_jump_squat: "squat",
+  ex_db_curtsy_lunge: "lunge",
+  ex_db_lateral_lunge: "lunge",
+  ex_band_leg_extension: "squat",
+
+  // hamstrings/glutes additions
+  ex_db_sumo_deadlift: "hinge",
+  ex_bb_deadlift: "hinge",
+  ex_band_pull_through: "hinge",
+  ex_single_leg_glute_bridge: "hipThrust",
+  ex_db_step_down: "lunge",
+  ex_reverse_hyper: "hinge",
+
+  // calves additions
+  ex_bw_calf_raise: "calfRaise",
+  ex_single_leg_calf_raise: "calfRaise",
+  ex_seated_db_calf_raise: "calfRaise",
+
+  // front delt additions
+  ex_db_seated_press: "overheadPress",
+  ex_band_shoulder_press: "overheadPress",
+  ex_db_single_arm_press: "overheadPress",
+  ex_db_front_raise: "lateralRaise",
+
+  // side delt additions
+  ex_db_seated_lateral: "lateralRaise",
+  ex_db_leaning_lateral: "lateralRaise",
+  ex_band_overhead_lateral: "lateralRaise",
+
+  // rear delt additions
+  ex_bench_reverse_fly: "rearFly",
+  ex_band_reverse_fly_standing: "rearFly",
+
+  // biceps additions
+  ex_db_concentration_curl: "curl",
+  ex_db_incline_curl: "curl",
+  ex_db_zottman_curl: "curl",
+  ex_bench_preacher_curl: "curl",
+  ex_bb_curl: "curl",
+
+  // triceps additions
+  ex_db_kickback: "skullCrusher",
+  ex_close_grip_pushup: "pushUp",
+  ex_band_overhead_ext: "skullCrusher",
+  ex_bench_dip_weighted: "dip",
+
+  // traps additions
+  ex_db_shrug: "shrug",
+  ex_band_shrug: "shrug",
+
+  // full body / functional
+  ex_burpee: "pushUp",
+  ex_bear_crawl: "plank",
+  ex_farmers_carry: "shrug",
+  ex_db_thruster: "overheadPress",
 };
 
 export function ExerciseIcon({ exerciseId, category, muscleGroup, className, chip = true }) {
