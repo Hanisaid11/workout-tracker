@@ -260,28 +260,14 @@ const Icons = {
 };
 
 // canonical (English) muscle group -> accent color, used regardless of UI language
-const MUSCLE_COLOR = {
-  Chest: "text-rose-400",
-  Back: "text-emerald-400",
-  Quads: "text-amber-400",
-  "Hamstrings/Glutes": "text-lime-400",
-  Calves: "text-teal-400",
-  "Front Delts": "text-sky-400",
-  "Side Delts": "text-violet-400",
-  "Rear Delts": "text-cyan-400",
-  Biceps: "text-indigo-400",
-  Triceps: "text-fuchsia-400",
-  Traps: "text-pink-400",
-  Abs: "text-orange-400",
-  "Full Body": "text-yellow-400",
-};
-
 // same palette, as card-background / border / icon-chip tint classes
 const MUSCLE_STYLE = {
   Chest: { text: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/25", chip: "bg-rose-500/15" },
   Back: { text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/25", chip: "bg-emerald-500/15" },
   Quads: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/25", chip: "bg-amber-500/15" },
-  "Hamstrings/Glutes": { text: "text-lime-400", bg: "bg-lime-500/10", border: "border-lime-500/25", chip: "bg-lime-500/15" },
+  Hamstrings: { text: "text-lime-400", bg: "bg-lime-500/10", border: "border-lime-500/25", chip: "bg-lime-500/15" },
+  Glutes: { text: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/25", chip: "bg-red-500/15" },
+  "Lower Back": { text: "text-stone-400", bg: "bg-stone-500/10", border: "border-stone-500/25", chip: "bg-stone-500/15" },
   Calves: { text: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/25", chip: "bg-teal-500/15" },
   "Front Delts": { text: "text-sky-400", bg: "bg-sky-500/10", border: "border-sky-500/25", chip: "bg-sky-500/15" },
   "Side Delts": { text: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-500/25", chip: "bg-violet-500/15" },
@@ -289,6 +275,7 @@ const MUSCLE_STYLE = {
   Biceps: { text: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/25", chip: "bg-indigo-500/15" },
   Triceps: { text: "text-fuchsia-400", bg: "bg-fuchsia-500/10", border: "border-fuchsia-500/25", chip: "bg-fuchsia-500/15" },
   Traps: { text: "text-pink-400", bg: "bg-pink-500/10", border: "border-pink-500/25", chip: "bg-pink-500/15" },
+  Forearms: { text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/25", chip: "bg-blue-500/15" },
   Abs: { text: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/25", chip: "bg-orange-500/15" },
   "Full Body": { text: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/25", chip: "bg-yellow-500/15" },
 };
@@ -437,6 +424,54 @@ export const EXERCISE_ICON_MAP = {
   ex_bear_crawl: "plank",
   ex_farmers_carry: "shrug",
   ex_db_thruster: "overheadPress",
+
+  // Hamstrings
+  ex_db_stiff_leg_deadlift: "hinge",
+  ex_db_single_leg_deadlift: "hinge",
+  ex_nordic_curl: "hinge",
+  ex_band_hamstring_curl: "hinge",
+  ex_db_good_morning: "hinge",
+
+  // Glutes
+  ex_donkey_kick: "hipThrust",
+  ex_fire_hydrant: "hipThrust",
+
+  // Lower Back
+  ex_bird_dog: "superman",
+  ex_band_deadlift: "hinge",
+  ex_db_deadlift: "hinge",
+  ex_prone_cobra: "superman",
+
+  // Side Delts
+  ex_db_y_raise: "lateralRaise",
+  ex_db_partial_lateral: "lateralRaise",
+  ex_db_crossbody_lateral: "lateralRaise",
+
+  // Rear Delts
+  ex_db_seated_reverse_fly: "rearFly",
+  ex_band_w_raise: "rearFly",
+  ex_db_prone_y_raise: "rearFly",
+
+  // Traps
+  ex_db_upright_row: "shrug",
+  ex_band_upright_row: "shrug",
+  ex_db_farmer_shrug_walk: "shrug",
+  ex_bb_upright_row: "shrug",
+  ex_db_incline_shrug: "shrug",
+
+  // Forearms
+  ex_db_wrist_curl: "curl",
+  ex_db_reverse_wrist_curl: "curl",
+  ex_db_reverse_curl: "curl",
+  ex_band_wrist_curl: "curl",
+  ex_farmers_carry_forearm: "shrug",
+  ex_dead_hang: "pullUp",
+  ex_db_wrist_roller: "curl",
+  ex_db_hammer_hold: "curl",
+
+  // Legs
+  ex_db_bulgarian_split_squat: "lunge",
+  ex_db_suitcase_squat: "squat",
 };
 
 export function ExerciseIcon({ exerciseId, category, muscleGroup, className, chip = true }) {

@@ -53,7 +53,7 @@ const DEFAULT_EXERCISES = [
   { id: "ex_band_row", name: "Band Seated Row", nameAr: "التجديف الجالس بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Back", muscleGroupAr: "الظهر" },
   { id: "ex_renegade_row", name: "DB Renegade Row", nameAr: "تجديف الدمبل في وضعية الضغط", equipment: "Dumbbells", category: "small", muscleGroup: "Back", muscleGroupAr: "الظهر" },
   { id: "ex_bb_shrug", name: "Barbell Shrug", nameAr: "رفع الكتفين بالبار", equipment: "Barbell", category: "small", muscleGroup: "Traps", muscleGroupAr: "العضلة شبه المنحرفة" },
-  { id: "ex_superman", name: "Superman Hold", nameAr: "تمرين السوبرمان", equipment: "Bodyweight", category: "small", muscleGroup: "Back", muscleGroupAr: "الظهر" },
+  { id: "ex_superman", name: "Superman Hold", nameAr: "تمرين السوبرمان", equipment: "Bodyweight", category: "small", muscleGroup: "Lower Back", muscleGroupAr: "أسفل الظهر" },
 
   // Legs
   { id: "ex_bb_squat", name: "Barbell Back Squat", nameAr: "القرفصاء بالبار", equipment: "Barbell", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
@@ -63,11 +63,11 @@ const DEFAULT_EXERCISES = [
   { id: "ex_db_lunge", name: "DB Walking Lunge", nameAr: "الاندفاع الأمامي المتحرك بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
   { id: "ex_db_reverse_lunge", name: "DB Reverse Lunge", nameAr: "الاندفاع الخلفي بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
   { id: "ex_db_stepup", name: "DB Box Step-Up", nameAr: "الصعود على المقعد بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
-  { id: "ex_bb_rdl", name: "Barbell RDL", nameAr: "الرفع الميت الروماني بالبار", equipment: "Barbell", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
-  { id: "ex_db_rdl_single", name: "Single-Leg DB RDL", nameAr: "الرفع الميت الروماني بالدمبل على رجل واحدة", equipment: "Dumbbells", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
-  { id: "ex_band_good_morning", name: "Band Good Morning", nameAr: "تمرين الانحناء الصباحي بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
-  { id: "ex_db_hipthrust", name: "DB Hip Thrust", nameAr: "دفع الحوض بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
-  { id: "ex_glute_bridge", name: "Bodyweight Glute Bridge", nameAr: "جسر الأرداف بوزن الجسم", equipment: "Bodyweight", category: "small", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_bb_rdl", name: "Barbell RDL", nameAr: "الرفع الميت الروماني بالبار", equipment: "Barbell", category: "large", muscleGroup: "Hamstrings", muscleGroupAr: "الفخذ الخلفي" },
+  { id: "ex_db_rdl_single", name: "Single-Leg DB RDL", nameAr: "الرفع الميت الروماني بالدمبل على رجل واحدة", equipment: "Dumbbells", category: "large", muscleGroup: "Hamstrings", muscleGroupAr: "الفخذ الخلفي" },
+  { id: "ex_band_good_morning", name: "Band Good Morning", nameAr: "تمرين الانحناء الصباحي بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Lower Back", muscleGroupAr: "أسفل الظهر" },
+  { id: "ex_db_hipthrust", name: "DB Hip Thrust", nameAr: "دفع الحوض بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Glutes", muscleGroupAr: "الأرداف" },
+  { id: "ex_glute_bridge", name: "Bodyweight Glute Bridge", nameAr: "جسر الأرداف بوزن الجسم", equipment: "Bodyweight", category: "small", muscleGroup: "Glutes", muscleGroupAr: "الأرداف" },
   { id: "ex_db_calf_raise", name: "DB Calf Raise", nameAr: "رفع السمانة بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Calves", muscleGroupAr: "السمانة" },
 
   // Shoulders (front / overhead)
@@ -136,12 +136,12 @@ const DEFAULT_EXERCISES = [
   { id: "ex_band_leg_extension", name: "Band Leg Extension", nameAr: "بسط الساق بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
 
   // more Hamstrings/Glutes
-  { id: "ex_db_sumo_deadlift", name: "DB Sumo Deadlift", nameAr: "الرفع الميت سومو بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
-  { id: "ex_bb_deadlift", name: "Barbell Deadlift", nameAr: "الرفع الميت بالبار", equipment: "Barbell", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
-  { id: "ex_band_pull_through", name: "Band Pull-Through", nameAr: "السحب بين الرجلين بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
-  { id: "ex_single_leg_glute_bridge", name: "Single-Leg Glute Bridge", nameAr: "جسر الأرداف برجل واحدة", equipment: "Bodyweight", category: "small", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
-  { id: "ex_db_step_down", name: "DB Step-Down", nameAr: "النزول عن المقعد بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
-  { id: "ex_reverse_hyper", name: "Bench Reverse Hyperextension", nameAr: "مد الظهر العكسي على المقعد", equipment: "Bench", category: "small", muscleGroup: "Hamstrings/Glutes", muscleGroupAr: "الفخذ الخلفي والأرداف" },
+  { id: "ex_db_sumo_deadlift", name: "DB Sumo Deadlift", nameAr: "الرفع الميت سومو بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Glutes", muscleGroupAr: "الأرداف" },
+  { id: "ex_bb_deadlift", name: "Barbell Deadlift", nameAr: "الرفع الميت بالبار", equipment: "Barbell", category: "large", muscleGroup: "Lower Back", muscleGroupAr: "أسفل الظهر" },
+  { id: "ex_band_pull_through", name: "Band Pull-Through", nameAr: "السحب بين الرجلين بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Glutes", muscleGroupAr: "الأرداف" },
+  { id: "ex_single_leg_glute_bridge", name: "Single-Leg Glute Bridge", nameAr: "جسر الأرداف برجل واحدة", equipment: "Bodyweight", category: "small", muscleGroup: "Glutes", muscleGroupAr: "الأرداف" },
+  { id: "ex_db_step_down", name: "DB Step-Down", nameAr: "النزول عن المقعد بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Glutes", muscleGroupAr: "الأرداف" },
+  { id: "ex_reverse_hyper", name: "Bench Reverse Hyperextension", nameAr: "مد الظهر العكسي على المقعد", equipment: "Bench", category: "small", muscleGroup: "Lower Back", muscleGroupAr: "أسفل الظهر" },
 
   // more Calves
   { id: "ex_bw_calf_raise", name: "Bodyweight Calf Raise", nameAr: "رفع السمانة بوزن الجسم", equipment: "Bodyweight", category: "small", muscleGroup: "Calves", muscleGroupAr: "السمانة" },
@@ -185,59 +185,143 @@ const DEFAULT_EXERCISES = [
   { id: "ex_bear_crawl", name: "Bear Crawl", nameAr: "زحف الدب", equipment: "Bodyweight", category: "small", muscleGroup: "Full Body", muscleGroupAr: "كامل الجسم" },
   { id: "ex_farmers_carry", name: "DB Farmer's Carry", nameAr: "حمل المزارع بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Full Body", muscleGroupAr: "كامل الجسم" },
   { id: "ex_db_thruster", name: "DB Thruster", nameAr: "تمرين الدفع الأمامي بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Full Body", muscleGroupAr: "كامل الجسم" },
+
+  // Hamstrings
+  { id: "ex_db_stiff_leg_deadlift", name: "DB Stiff-Leg Deadlift", nameAr: "الرفع الميت بالأرجل الممدودة بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Hamstrings", muscleGroupAr: "الفخذ الخلفي" },
+  { id: "ex_db_single_leg_deadlift", name: "Single-Leg DB Deadlift", nameAr: "الرفع الميت بالدمبل على رجل واحدة", equipment: "Dumbbells", category: "large", muscleGroup: "Hamstrings", muscleGroupAr: "الفخذ الخلفي" },
+  { id: "ex_nordic_curl", name: "Nordic Hamstring Curl", nameAr: "تمرين نوردك لعضلة الفخذ الخلفي", equipment: "Bodyweight", category: "small", muscleGroup: "Hamstrings", muscleGroupAr: "الفخذ الخلفي" },
+  { id: "ex_band_hamstring_curl", name: "Band Lying Hamstring Curl", nameAr: "ثني الركبة بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Hamstrings", muscleGroupAr: "الفخذ الخلفي" },
+  { id: "ex_db_good_morning", name: "DB Good Morning", nameAr: "تمرين الانحناء الصباحي بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Hamstrings", muscleGroupAr: "الفخذ الخلفي" },
+
+  // Glutes
+  { id: "ex_donkey_kick", name: "Donkey Kick", nameAr: "ركلة الحمار", equipment: "Bodyweight", category: "small", muscleGroup: "Glutes", muscleGroupAr: "الأرداف" },
+  { id: "ex_fire_hydrant", name: "Fire Hydrant", nameAr: "تمرين حنفية الحريق", equipment: "Bodyweight", category: "small", muscleGroup: "Glutes", muscleGroupAr: "الأرداف" },
+
+  // Lower Back
+  { id: "ex_bird_dog", name: "Bird Dog", nameAr: "تمرين الكلب الطائر", equipment: "Bodyweight", category: "small", muscleGroup: "Lower Back", muscleGroupAr: "أسفل الظهر" },
+  { id: "ex_band_deadlift", name: "Band Deadlift", nameAr: "الرفع الميت بالحبل المطاطي", equipment: "Bands", category: "large", muscleGroup: "Lower Back", muscleGroupAr: "أسفل الظهر" },
+  { id: "ex_db_deadlift", name: "DB Deadlift", nameAr: "الرفع الميت بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Lower Back", muscleGroupAr: "أسفل الظهر" },
+  { id: "ex_prone_cobra", name: "Prone Cobra Hold", nameAr: "تمرين الكوبرا الأرضي", equipment: "Bodyweight", category: "small", muscleGroup: "Lower Back", muscleGroupAr: "أسفل الظهر" },
+
+  // Side Delts
+  { id: "ex_db_y_raise", name: "DB Y-Raise", nameAr: "رفع Y بالدمبل", equipment: "Dumbbells", category: "sideDelt", muscleGroup: "Side Delts", muscleGroupAr: "الكتف الجانبي" },
+  { id: "ex_db_partial_lateral", name: "DB Partial Lateral Raise", nameAr: "الرفع الجانبي الجزئي بالدمبل", equipment: "Dumbbells", category: "sideDelt", muscleGroup: "Side Delts", muscleGroupAr: "الكتف الجانبي" },
+  { id: "ex_db_crossbody_lateral", name: "Cross-Body DB Lateral Raise", nameAr: "الرفع الجانبي المتقاطع بالدمبل", equipment: "Dumbbells", category: "sideDelt", muscleGroup: "Side Delts", muscleGroupAr: "الكتف الجانبي" },
+
+  // Rear Delts
+  { id: "ex_db_seated_reverse_fly", name: "Seated DB Reverse Fly", nameAr: "طيران الكتف الخلفي الجالس بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Rear Delts", muscleGroupAr: "الكتف الخلفي" },
+  { id: "ex_band_w_raise", name: "Band W-Raise", nameAr: "رفع W بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Rear Delts", muscleGroupAr: "الكتف الخلفي" },
+  { id: "ex_db_prone_y_raise", name: "DB Prone Y-Raise", nameAr: "رفع Y على المقعد بالدمبل", equipment: "Bench", category: "small", muscleGroup: "Rear Delts", muscleGroupAr: "الكتف الخلفي" },
+
+  // Traps
+  { id: "ex_db_upright_row", name: "DB Upright Row", nameAr: "السحب العمودي بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Traps", muscleGroupAr: "العضلة شبه المنحرفة" },
+  { id: "ex_band_upright_row", name: "Band Upright Row", nameAr: "السحب العمودي بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Traps", muscleGroupAr: "العضلة شبه المنحرفة" },
+  { id: "ex_db_farmer_shrug_walk", name: "Farmer's Carry Shrug Walk", nameAr: "المشي مع رفع الكتفين بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Traps", muscleGroupAr: "العضلة شبه المنحرفة" },
+  { id: "ex_bb_upright_row", name: "Barbell Upright Row", nameAr: "السحب العمودي بالبار", equipment: "Barbell", category: "small", muscleGroup: "Traps", muscleGroupAr: "العضلة شبه المنحرفة" },
+  { id: "ex_db_incline_shrug", name: "Incline Bench DB Shrug", nameAr: "رفع الكتفين على مقعد مائل بالدمبل", equipment: "Bench", category: "small", muscleGroup: "Traps", muscleGroupAr: "العضلة شبه المنحرفة" },
+
+  // Forearms
+  { id: "ex_db_wrist_curl", name: "DB Wrist Curl", nameAr: "ثني المعصم بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Forearms", muscleGroupAr: "الساعد" },
+  { id: "ex_db_reverse_wrist_curl", name: "DB Reverse Wrist Curl", nameAr: "ثني المعصم العكسي بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Forearms", muscleGroupAr: "الساعد" },
+  { id: "ex_db_reverse_curl", name: "DB Reverse Curl", nameAr: "تجعيد الذراع العكسي بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Forearms", muscleGroupAr: "الساعد" },
+  { id: "ex_band_wrist_curl", name: "Band Wrist Curl", nameAr: "ثني المعصم بالحبل المطاطي", equipment: "Bands", category: "small", muscleGroup: "Forearms", muscleGroupAr: "الساعد" },
+  { id: "ex_farmers_carry_forearm", name: "DB Farmer's Carry (Grip Focus)", nameAr: "حمل المزارع لتقوية قبضة اليد", equipment: "Dumbbells", category: "small", muscleGroup: "Forearms", muscleGroupAr: "الساعد" },
+  { id: "ex_dead_hang", name: "Dead Hang", nameAr: "التعلّق من العقلة", equipment: "Pull-up Bar", category: "small", muscleGroup: "Forearms", muscleGroupAr: "الساعد" },
+  { id: "ex_db_wrist_roller", name: "DB Wrist Roller", nameAr: "لفّ المعصم بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Forearms", muscleGroupAr: "الساعد" },
+  { id: "ex_db_hammer_hold", name: "DB Static Hammer Hold", nameAr: "ثبات إمساك المطرقة بالدمبل", equipment: "Dumbbells", category: "small", muscleGroup: "Forearms", muscleGroupAr: "الساعد" },
+
+  // Legs — Bulgarian split squat family (requested emphasis)
+  { id: "ex_db_bulgarian_split_squat", name: "DB Bulgarian Split Squat", nameAr: "سكوات بلغاري بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_db_suitcase_squat", name: "DB Suitcase Squat", nameAr: "سكوات الحقيبة بالدمبل على الجانبين", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
 ];
 
 // 6-day full body split — week starts Saturday, Friday is the rest day.
+// Weekly volume targets (exact): Chest 18 · Back 18 · Legs 18 (mostly Bulgarian split squat +
+// DB squats) · Side Delts 16 · Abs 16 (mostly crunch-pattern) · Forearms 8 (2 sets, 4 of the 6 days) ·
+// Front Delts / Rear Delts / Biceps / Triceps / Traps / Lower Back: 12 each, never more than 4 sets/day.
 // Equipment priority: Dumbbells / Pull-up Bar / Bands first, Barbell used sparingly.
-// Weekly totals per category land near ~20 large / ~12 small / ~16 sideDelt / ~20 abs.
 const DEFAULT_TEMPLATE = [
   { id: "day_sat", label: "Day 1 · Sat", labelAr: "اليوم الأول · السبت", exercises: [
-    { exerciseId: "ex_db_incline", targetSets: 4, targetReps: 8 },
+    { exerciseId: "ex_db_incline", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_pullup", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_goblet_squat", targetSets: 4, targetReps: 10 },
+    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 3, targetReps: 10 },
     { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_situp", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_wrist_curl", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_arnold_press", targetSets: 2, targetReps: 8 },
+    { exerciseId: "ex_db_rear_fly", targetSets: 2, targetReps: 15 },
     { exerciseId: "ex_db_curl", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_hanging_leg", targetSets: 4, targetReps: 12 },
+    { exerciseId: "ex_db_skull", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_shrug", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_superman", targetSets: 2, targetReps: 20 },
   ]},
   { id: "day_sun", label: "Day 2 · Sun", labelAr: "اليوم الثاني · الأحد", exercises: [
-    { exerciseId: "ex_db_row", targetSets: 4, targetReps: 10 },
-    { exerciseId: "ex_bb_rdl", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_arnold_press", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_band_lateral", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_bench", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_pullup", targetSets: 3, targetReps: 8 },
+    { exerciseId: "ex_db_suitcase_squat", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_reverse_crunch", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_reverse_wrist_curl", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_seated_press", targetSets: 2, targetReps: 10 },
+    { exerciseId: "ex_band_facepull", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_hammer_curl", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_dip", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_plank", targetSets: 3, targetReps: 45 },
+    { exerciseId: "ex_db_upright_row", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_bird_dog", targetSets: 2, targetReps: 12 },
   ]},
   { id: "day_mon", label: "Day 3 · Mon", labelAr: "اليوم الثالث · الاثنين", exercises: [
-    { exerciseId: "ex_db_bench", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_chinup", targetSets: 4, targetReps: 8 },
-    { exerciseId: "ex_db_lunge", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_incline", targetSets: 3, targetReps: 8 },
+    { exerciseId: "ex_db_row", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_band_lateral", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_vup", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_front_raise", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_band_pullapart", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_situp", targetSets: 4, targetReps: 15 },
+    { exerciseId: "ex_db_concentration_curl", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_kickback", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_band_shrug", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_deadlift", targetSets: 2, targetReps: 10 },
   ]},
   { id: "day_tue", label: "Day 4 · Tue", labelAr: "اليوم الرابع · الثلاثاء", exercises: [
-    { exerciseId: "ex_pushup", targetSets: 4, targetReps: 15 },
+    { exerciseId: "ex_db_bench", targetSets: 3, targetReps: 10 },
     { exerciseId: "ex_pullup", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_hipthrust", targetSets: 4, targetReps: 10 },
-    { exerciseId: "ex_band_lateral", targetSets: 3, targetReps: 15 },
-    { exerciseId: "ex_db_skull", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_hanging_leg", targetSets: 4, targetReps: 12 },
+    { exerciseId: "ex_db_suitcase_squat", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_bicycle_crunch", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_reverse_curl", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_single_arm_press", targetSets: 2, targetReps: 10 },
+    { exerciseId: "ex_db_rear_fly", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_incline_curl", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_overhead_tricep", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_farmer_shrug_walk", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_band_good_morning", targetSets: 2, targetReps: 12 },
   ]},
   { id: "day_wed", label: "Day 5 · Wed", labelAr: "اليوم الخامس · الأربعاء", exercises: [
     { exerciseId: "ex_db_incline", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_band_row", targetSets: 4, targetReps: 12 },
-    { exerciseId: "ex_db_reverse_lunge", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
-    { exerciseId: "ex_db_rear_fly", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_plank", targetSets: 3, targetReps: 45 },
+    { exerciseId: "ex_db_row", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_lateral", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_toe_touch", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_dead_hang", targetSets: 2, targetReps: 20 },
+    { exerciseId: "ex_db_arnold_press", targetSets: 2, targetReps: 8 },
+    { exerciseId: "ex_bench_reverse_fly", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_zottman_curl", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_skull", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_incline_shrug", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_prone_cobra", targetSets: 2, targetReps: 20 },
   ]},
   { id: "day_thu", label: "Day 6 · Thu", labelAr: "اليوم السادس · الخميس", exercises: [
-    { exerciseId: "ex_db_arnold_press", targetSets: 3, targetReps: 8 },
+    { exerciseId: "ex_db_bench", targetSets: 3, targetReps: 10 },
     { exerciseId: "ex_chinup", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_rdl_single", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_lateral", targetSets: 4, targetReps: 15 },
-    { exerciseId: "ex_db_hammer_curl", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_situp", targetSets: 4, targetReps: 15 },
+    { exerciseId: "ex_db_suitcase_squat", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_lateral", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_situp", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_pike_pushup", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_band_w_raise", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_curl", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_close_grip_pushup", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_shrug", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_band_deadlift", targetSets: 2, targetReps: 10 },
   ]},
 ];
 
