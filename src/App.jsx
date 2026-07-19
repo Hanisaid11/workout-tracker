@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import { Plus, Minus, Check, ChevronDown, ChevronUp, Dumbbell, Library, X, TrendingUp, TrendingDown, RotateCcw, Trash2, Pencil, Languages, Settings } from "lucide-react";
+import { Plus, Minus, Check, ChevronDown, ChevronUp, Dumbbell, Library, X, TrendingUp, TrendingDown, RotateCcw, Trash2, Pencil, Languages, Settings, Info } from "lucide-react";
 import { loadKey, saveKey } from "./storage.js";
 import { t, localizedName, localizedMuscleGroup, localizedDayLabel } from "./i18n.js";
-import { ExerciseIcon, getMuscleStyle } from "./exerciseIcons.jsx";
+import { ExerciseIcon, getMuscleStyle, EXERCISE_ICON_MAP } from "./exerciseIcons.jsx";
+import { getInstructions } from "./exerciseInstructions.js";
 
 /* ---------------------------------------------------------------
    DEFAULT DATA
@@ -235,19 +236,21 @@ const DEFAULT_EXERCISES = [
   { id: "ex_db_suitcase_squat", name: "DB Suitcase Squat", nameAr: "سكوات الحقيبة بالدمبل على الجانبين", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
 ];
 
-// 6-day full body split — week starts Saturday, Friday is the rest day.
-// Weekly volume targets (exact): Chest 18 · Back 18 · Legs 18 (mostly Bulgarian split squat +
-// DB squats) · Side Delts 16 · Abs 16 (mostly crunch-pattern) · Forearms 8 (2 sets, 4 of the 6 days) ·
-// Front Delts / Rear Delts / Biceps / Triceps / Traps / Lower Back: 12 each, never more than 4 sets/day.
-// Equipment priority: Dumbbells / Pull-up Bar / Bands first, Barbell used sparingly.
+// Alternating Group A / Group B split — week starts Saturday, Friday is the rest day.
+// Group A (Sat, Mon, Wed): chest + side delts + forearm at max intensity; back/legs/abs kept light.
+// Group B (Sun, Tue, Thu): back + legs + abs at max intensity; chest/side delts kept light.
+// Forearm appears on 2 days per group (Sat, Mon / Sun, Tue) = 8 sets/week total.
+// Front Delts, Rear Delts, Biceps, Triceps, Traps, Lower Back stay flat at 2 sets/day = 12/week each,
+// distributed evenly across all 6 days regardless of group. No muscle exceeds 4 sets in a single day.
+// Weekly totals: Chest 18 · Back 18 · Legs(Quads) 18 · Side Delts 15 · Abs 15 · Forearm 8 · rest 12 each.
 const DEFAULT_TEMPLATE = [
-  { id: "day_sat", label: "Day 1 · Sat", labelAr: "اليوم الأول · السبت", exercises: [
-    { exerciseId: "ex_db_incline", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_pullup", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 3, targetReps: 10 },
+  { id: "day_sat", label: "Day 1 · Sat (Group A)", labelAr: "اليوم الأول · السبت (مجموعة أ)", exercises: [
+    { exerciseId: "ex_db_bench", targetSets: 4, targetReps: 10 },
     { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
-    { exerciseId: "ex_situp", targetSets: 3, targetReps: 15 },
     { exerciseId: "ex_db_wrist_curl", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_pullup", targetSets: 2, targetReps: 8 },
+    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 2, targetReps: 10 },
+    { exerciseId: "ex_plank", targetSets: 1, targetReps: 45 },
     { exerciseId: "ex_db_arnold_press", targetSets: 2, targetReps: 8 },
     { exerciseId: "ex_db_rear_fly", targetSets: 2, targetReps: 15 },
     { exerciseId: "ex_db_curl", targetSets: 2, targetReps: 12 },
@@ -255,73 +258,73 @@ const DEFAULT_TEMPLATE = [
     { exerciseId: "ex_db_shrug", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_superman", targetSets: 2, targetReps: 20 },
   ]},
-  { id: "day_sun", label: "Day 2 · Sun", labelAr: "اليوم الثاني · الأحد", exercises: [
-    { exerciseId: "ex_db_bench", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_pullup", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_suitcase_squat", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
-    { exerciseId: "ex_reverse_crunch", targetSets: 3, targetReps: 15 },
-    { exerciseId: "ex_db_reverse_wrist_curl", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_seated_press", targetSets: 2, targetReps: 10 },
-    { exerciseId: "ex_band_facepull", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_hammer_curl", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_dip", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_upright_row", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_bird_dog", targetSets: 2, targetReps: 12 },
-  ]},
-  { id: "day_mon", label: "Day 3 · Mon", labelAr: "اليوم الثالث · الاثنين", exercises: [
-    { exerciseId: "ex_db_incline", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_row", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_band_lateral", targetSets: 3, targetReps: 15 },
-    { exerciseId: "ex_vup", targetSets: 3, targetReps: 15 },
-    { exerciseId: "ex_db_front_raise", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_band_pullapart", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_concentration_curl", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_kickback", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_band_shrug", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_deadlift", targetSets: 2, targetReps: 10 },
-  ]},
-  { id: "day_tue", label: "Day 4 · Tue", labelAr: "اليوم الرابع · الثلاثاء", exercises: [
-    { exerciseId: "ex_db_bench", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_pullup", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_suitcase_squat", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
-    { exerciseId: "ex_bicycle_crunch", targetSets: 3, targetReps: 15 },
+  { id: "day_sun", label: "Day 2 · Sun (Group B)", labelAr: "اليوم الثاني · الأحد (مجموعة ب)", exercises: [
+    { exerciseId: "ex_pullup", targetSets: 4, targetReps: 8 },
+    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 4, targetReps: 10 },
+    { exerciseId: "ex_situp", targetSets: 4, targetReps: 15 },
+    { exerciseId: "ex_band_lateral", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_incline", targetSets: 2, targetReps: 8 },
     { exerciseId: "ex_db_reverse_curl", targetSets: 2, targetReps: 15 },
     { exerciseId: "ex_db_single_arm_press", targetSets: 2, targetReps: 10 },
-    { exerciseId: "ex_db_rear_fly", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_band_facepull", targetSets: 2, targetReps: 15 },
     { exerciseId: "ex_db_incline_curl", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_db_overhead_tricep", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_farmer_shrug_walk", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_band_good_morning", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_upright_row", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_deadlift", targetSets: 2, targetReps: 10 },
   ]},
-  { id: "day_wed", label: "Day 5 · Wed", labelAr: "اليوم الخامس · الأربعاء", exercises: [
-    { exerciseId: "ex_db_incline", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_row", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_db_lateral", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_toe_touch", targetSets: 2, targetReps: 15 },
+  { id: "day_mon", label: "Day 3 · Mon (Group A)", labelAr: "اليوم الثالث · الاثنين (مجموعة أ)", exercises: [
+    { exerciseId: "ex_db_incline", targetSets: 4, targetReps: 8 },
+    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_reverse_wrist_curl", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_row", targetSets: 2, targetReps: 10 },
+    { exerciseId: "ex_db_suitcase_squat", targetSets: 2, targetReps: 10 },
+    { exerciseId: "ex_plank", targetSets: 1, targetReps: 45 },
+    { exerciseId: "ex_db_front_raise", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_band_pullapart", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_hammer_curl", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_kickback", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_band_shrug", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_bird_dog", targetSets: 2, targetReps: 12 },
+  ]},
+  { id: "day_tue", label: "Day 4 · Tue (Group B)", labelAr: "اليوم الرابع · الثلاثاء (مجموعة ب)", exercises: [
+    { exerciseId: "ex_db_row", targetSets: 4, targetReps: 10 },
+    { exerciseId: "ex_db_suitcase_squat", targetSets: 4, targetReps: 10 },
+    { exerciseId: "ex_reverse_crunch", targetSets: 4, targetReps: 15 },
+    { exerciseId: "ex_band_lateral", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_bench", targetSets: 2, targetReps: 10 },
     { exerciseId: "ex_dead_hang", targetSets: 2, targetReps: 20 },
-    { exerciseId: "ex_db_arnold_press", targetSets: 2, targetReps: 8 },
-    { exerciseId: "ex_bench_reverse_fly", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_band_shoulder_press", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_band_w_raise", targetSets: 2, targetReps: 15 },
     { exerciseId: "ex_db_zottman_curl", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_skull", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_band_overhead_ext", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_farmer_shrug_walk", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_band_deadlift", targetSets: 2, targetReps: 10 },
+  ]},
+  { id: "day_wed", label: "Day 5 · Wed (Group A)", labelAr: "اليوم الخامس · الأربعاء (مجموعة أ)", exercises: [
+    { exerciseId: "ex_db_bench", targetSets: 4, targetReps: 10 },
+    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_chinup", targetSets: 2, targetReps: 8 },
+    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 2, targetReps: 10 },
+    { exerciseId: "ex_plank", targetSets: 1, targetReps: 45 },
+    { exerciseId: "ex_db_seated_press", targetSets: 2, targetReps: 10 },
+    { exerciseId: "ex_bench_reverse_fly", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_concentration_curl", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_dip", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_db_incline_shrug", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_prone_cobra", targetSets: 2, targetReps: 20 },
   ]},
-  { id: "day_thu", label: "Day 6 · Thu", labelAr: "اليوم السادس · الخميس", exercises: [
-    { exerciseId: "ex_db_bench", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_chinup", targetSets: 3, targetReps: 8 },
-    { exerciseId: "ex_db_suitcase_squat", targetSets: 3, targetReps: 10 },
-    { exerciseId: "ex_db_lateral", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_situp", targetSets: 2, targetReps: 15 },
+  { id: "day_thu", label: "Day 6 · Thu (Group B)", labelAr: "اليوم السادس · الخميس (مجموعة ب)", exercises: [
+    { exerciseId: "ex_chinup", targetSets: 4, targetReps: 8 },
+    { exerciseId: "ex_db_curtsy_lunge", targetSets: 4, targetReps: 10 },
+    { exerciseId: "ex_vup", targetSets: 4, targetReps: 15 },
+    { exerciseId: "ex_band_lateral", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_incline", targetSets: 2, targetReps: 8 },
     { exerciseId: "ex_pike_pushup", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_band_w_raise", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_seated_reverse_fly", targetSets: 2, targetReps: 15 },
     { exerciseId: "ex_db_curl", targetSets: 2, targetReps: 12 },
     { exerciseId: "ex_close_grip_pushup", targetSets: 2, targetReps: 15 },
     { exerciseId: "ex_db_shrug", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_band_deadlift", targetSets: 2, targetReps: 10 },
+    { exerciseId: "ex_reverse_hyper", targetSets: 2, targetReps: 12 },
   ]},
 ];
 
@@ -653,9 +656,12 @@ function ExercisePicker({ open, onClose, library, onPick, lang }) {
 
 function ExerciseCard({ item, exercise, session, updateSet, onSwap, onRemove, onAddSet, onRemoveSet, onMoveUp, onMoveDown, isFirst, isLast, lang }) {
   const [open, setOpen] = useState(true);
+  const [showHowTo, setShowHowTo] = useState(false);
   if (!exercise) return null;
   const allDone = session.sets.length > 0 && session.sets.every((s) => s.completed);
   const style = getMuscleStyle(exercise.muscleGroup);
+  const patternKey = EXERCISE_ICON_MAP[exercise.id];
+  const steps = getInstructions(patternKey, lang);
 
   return (
     <div className={`rounded-xl border ${allDone ? "border-emerald-500/40" : style.border} ${style.bg} overflow-hidden`}>
@@ -666,7 +672,9 @@ function ExerciseCard({ item, exercise, session, updateSet, onSwap, onRemove, on
           <div className="min-w-0 text-left">
             <div className="text-sm font-semibold text-white truncate">{localizedName(exercise, lang)}</div>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <CategoryPill category={exercise.category} lang={lang} />
+              <span className={`text-[9px] font-bold tracking-wide px-1.5 py-0.5 rounded ${style.chip} ${style.text}`}>
+                {localizedMuscleGroup(exercise, lang)}
+              </span>
               <span className="text-[10px] text-white/40">{exercise.equipment}</span>
             </div>
           </div>
@@ -762,6 +770,27 @@ function ExerciseCard({ item, exercise, session, updateSet, onSwap, onRemove, on
             </button>
           </div>
 
+          {steps.length > 0 && (
+            <button
+              onClick={() => setShowHowTo((s) => !s)}
+              className="flex items-center gap-1 text-[11px] font-semibold mt-1 px-2 py-1 text-white/60 hover:text-white"
+            >
+              <Info size={12} /> {t(lang, "howTo")}
+              {showHowTo ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+            </button>
+          )}
+
+          {showHowTo && steps.length > 0 && (
+            <ol className="mt-1 space-y-1.5 px-2">
+              {steps.map((step, i) => (
+                <li key={i} className="text-[11px] text-white/60 leading-relaxed flex gap-2">
+                  <span className={`shrink-0 font-mono font-bold ${style.text}`}>{i + 1}.</span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ol>
+          )}
+
           {session.lastDate && (
             <p className="text-[10px] text-white/30 mt-2">
               {t(lang, "lastPerformed")} {new Date(session.lastDate).toLocaleDateString(lang === "ar" ? "ar-EG" : undefined, { month: "short", day: "numeric" })}
@@ -853,6 +882,8 @@ export default function App() {
   }, [loading, visibleDays]);
 
   const activeDay = template.find((d) => d.id === activeDayId);
+  const activeDayIndex = visibleDays.findIndex((d) => d.id === activeDayId);
+  const isGroupA = activeDayIndex % 2 === 0;
 
   const libraryMap = useMemo(() => Object.fromEntries(library.map((e) => [e.id, e])), [library]);
 
@@ -1026,6 +1057,12 @@ export default function App() {
             </div>
             <p className="text-[10px] text-white/40 mt-1 font-mono">{doneSets}/{totalSets} {t(lang, "setsCompleted")}</p>
           </div>
+
+          {activeDayIndex >= 0 && (
+            <p className={`text-[10px] font-bold tracking-wide mt-2 ${isGroupA ? "text-[#E8B33D]" : "text-emerald-400"}`}>
+              {t(lang, isGroupA ? "groupAFocus" : "groupBFocus")}
+            </p>
+          )}
         </div>
       </div>
 

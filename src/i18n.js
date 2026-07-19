@@ -15,6 +15,7 @@ export const STRINGS = {
     swap: "Swap",
     remove: "Remove",
     lastPerformed: "Last performed",
+    howTo: "How to perform",
     addExerciseToday: "Add Exercise to Today",
     finishSession: "Finish Session",
     logAtLeastOneSet: "Log at least one completed set first",
@@ -38,6 +39,8 @@ export const STRINGS = {
     trainingDaysLabel: "Training days per week",
     restDayLabel: "Rest day",
     settingsHint: "Changes apply to the day tabs above. Your logged history stays exactly as it was.",
+    groupAFocus: "Group A · Chest + Side Delts + Forearm focus",
+    groupBFocus: "Group B · Back + Legs + Abs focus",
   },
   ar: {
     appEyebrow: "تمرين كامل الجسم · برنامج ستة أيام",
@@ -55,6 +58,7 @@ export const STRINGS = {
     swap: "استبدال",
     remove: "إزالة",
     lastPerformed: "آخر أداء",
+    howTo: "طريقة الأداء",
     addExerciseToday: "إضافة تمرين لهذا اليوم",
     finishSession: "إنهاء الحصة",
     logAtLeastOneSet: "يُرجى تسجيل مجموعة واحدة مكتملة على الأقل",
@@ -78,6 +82,8 @@ export const STRINGS = {
     trainingDaysLabel: "عدد أيام التمرين في الأسبوع",
     restDayLabel: "يوم الراحة",
     settingsHint: "يتم تطبيق التغييرات على أيام التمرين أعلاه، وسجلّ التمارين المحفوظ سابقًا يبقى كما هو.",
+    groupAFocus: "مجموعة أ · تركيز على الصدر والكتف الجانبي والساعد",
+    groupBFocus: "مجموعة ب · تركيز على الظهر والأرجل والبطن",
   },
 };
 
