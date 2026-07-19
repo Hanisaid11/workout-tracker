@@ -471,6 +471,8 @@ export const EXERCISE_ICON_MAP = {
 
   // Legs
   ex_db_bulgarian_split_squat: "lunge",
+  ex_db_calf_raise_toes_out: "calfRaise",
+  ex_db_calf_raise_toes_in: "calfRaise",
   ex_db_suitcase_squat: "squat",
 };
 

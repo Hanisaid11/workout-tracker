@@ -233,98 +233,74 @@ const DEFAULT_EXERCISES = [
 
   // Legs — Bulgarian split squat family (requested emphasis)
   { id: "ex_db_bulgarian_split_squat", name: "DB Bulgarian Split Squat", nameAr: "سكوات بلغاري بالدمبل", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
+  { id: "ex_db_calf_raise_toes_out", name: "DB Calf Raise (Toes Out — Inner Head)", nameAr: "رفع السمانة بفتح مقدمة القدم (الرأس الداخلي)", equipment: "Dumbbells", category: "small", muscleGroup: "Calves", muscleGroupAr: "السمانة" },
+  { id: "ex_db_calf_raise_toes_in", name: "DB Calf Raise (Toes In — Outer Head)", nameAr: "رفع السمانة بتوجيه مقدمة القدم للداخل (الرأس الخارجي)", equipment: "Dumbbells", category: "small", muscleGroup: "Calves", muscleGroupAr: "السمانة" },
   { id: "ex_db_suitcase_squat", name: "DB Suitcase Squat", nameAr: "سكوات الحقيبة بالدمبل على الجانبين", equipment: "Dumbbells", category: "large", muscleGroup: "Quads", muscleGroupAr: "الفخذ الأمامي" },
 ];
 
-// Alternating Group A / Group B split — week starts Saturday, Friday is the rest day.
-// Group A (Sat, Mon, Wed): chest + side delts + forearm at max intensity; back/legs/abs kept light.
-// Group B (Sun, Tue, Thu): back + legs + abs at max intensity; chest/side delts kept light.
-// Forearm appears on 2 days per group (Sat, Mon / Sun, Tue) = 8 sets/week total.
-// Front Delts, Rear Delts, Biceps, Triceps, Traps, Lower Back stay flat at 2 sets/day = 12/week each,
-// distributed evenly across all 6 days regardless of group. No muscle exceeds 4 sets in a single day.
-// Weekly totals: Chest 18 · Back 18 · Legs(Quads) 18 · Side Delts 15 · Abs 15 · Forearm 8 · rest 12 each.
+// A/B/C rotation, twice per week — week starts Saturday, Friday is the rest day.
+// A (Sat, Tue): flat DB chest + pull-up + traps + calves (neutral) + side delts + abs/plank — max intensity.
+// B (Sun, Wed): upper (incline) chest + back + biceps + triceps + front delts + calves (inner/outer head alternating).
+// C (Mon, Thu): squat + Bulgarian split squat + lunge + RDL + rear delts + forearms, plus glutes/lower back/abs
+// filled in since C is the lighter day of the three.
 const DEFAULT_TEMPLATE = [
-  { id: "day_sat", label: "Day 1 · Sat (Group A)", labelAr: "اليوم الأول · السبت (مجموعة أ)", exercises: [
+  { id: "day_sat", label: "Day 1 · Sat (A)", labelAr: "اليوم الأول · السبت (أ)", exercises: [
     { exerciseId: "ex_db_bench", targetSets: 4, targetReps: 10 },
-    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
-    { exerciseId: "ex_db_wrist_curl", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_pullup", targetSets: 2, targetReps: 8 },
-    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 2, targetReps: 10 },
-    { exerciseId: "ex_plank", targetSets: 1, targetReps: 45 },
-    { exerciseId: "ex_db_arnold_press", targetSets: 2, targetReps: 8 },
-    { exerciseId: "ex_db_rear_fly", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_curl", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_skull", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_shrug", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_superman", targetSets: 2, targetReps: 20 },
-  ]},
-  { id: "day_sun", label: "Day 2 · Sun (Group B)", labelAr: "اليوم الثاني · الأحد (مجموعة ب)", exercises: [
     { exerciseId: "ex_pullup", targetSets: 4, targetReps: 8 },
-    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 4, targetReps: 10 },
-    { exerciseId: "ex_situp", targetSets: 4, targetReps: 15 },
-    { exerciseId: "ex_band_lateral", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_incline", targetSets: 2, targetReps: 8 },
-    { exerciseId: "ex_db_reverse_curl", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_single_arm_press", targetSets: 2, targetReps: 10 },
-    { exerciseId: "ex_band_facepull", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_incline_curl", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_overhead_tricep", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_upright_row", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_deadlift", targetSets: 2, targetReps: 10 },
-  ]},
-  { id: "day_mon", label: "Day 3 · Mon (Group A)", labelAr: "اليوم الثالث · الاثنين (مجموعة أ)", exercises: [
-    { exerciseId: "ex_db_incline", targetSets: 4, targetReps: 8 },
-    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
-    { exerciseId: "ex_db_reverse_wrist_curl", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_row", targetSets: 2, targetReps: 10 },
-    { exerciseId: "ex_db_suitcase_squat", targetSets: 2, targetReps: 10 },
+    { exerciseId: "ex_db_shrug", targetSets: 3, targetReps: 12 },
+    { exerciseId: "ex_db_calf_raise", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_lateral", targetSets: 4, targetReps: 15 },
+    { exerciseId: "ex_situp", targetSets: 3, targetReps: 15 },
     { exerciseId: "ex_plank", targetSets: 1, targetReps: 45 },
-    { exerciseId: "ex_db_front_raise", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_band_pullapart", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_hammer_curl", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_kickback", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_band_shrug", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_bird_dog", targetSets: 2, targetReps: 12 },
   ]},
-  { id: "day_tue", label: "Day 4 · Tue (Group B)", labelAr: "اليوم الرابع · الثلاثاء (مجموعة ب)", exercises: [
+  { id: "day_sun", label: "Day 2 · Sun (B)", labelAr: "اليوم الثاني · الأحد (ب)", exercises: [
+    { exerciseId: "ex_db_incline", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_db_row", targetSets: 4, targetReps: 10 },
-    { exerciseId: "ex_db_suitcase_squat", targetSets: 4, targetReps: 10 },
-    { exerciseId: "ex_reverse_crunch", targetSets: 4, targetReps: 15 },
-    { exerciseId: "ex_band_lateral", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_bench", targetSets: 2, targetReps: 10 },
-    { exerciseId: "ex_dead_hang", targetSets: 2, targetReps: 20 },
-    { exerciseId: "ex_band_shoulder_press", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_band_w_raise", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_zottman_curl", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_band_overhead_ext", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_farmer_shrug_walk", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_band_deadlift", targetSets: 2, targetReps: 10 },
+    { exerciseId: "ex_db_curl", targetSets: 3, targetReps: 12 },
+    { exerciseId: "ex_db_skull", targetSets: 3, targetReps: 12 },
+    { exerciseId: "ex_db_calf_raise_toes_in", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_front_raise", targetSets: 3, targetReps: 12 },
   ]},
-  { id: "day_wed", label: "Day 5 · Wed (Group A)", labelAr: "اليوم الخامس · الأربعاء (مجموعة أ)", exercises: [
-    { exerciseId: "ex_db_bench", targetSets: 4, targetReps: 10 },
-    { exerciseId: "ex_db_lateral", targetSets: 3, targetReps: 15 },
-    { exerciseId: "ex_chinup", targetSets: 2, targetReps: 8 },
-    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 2, targetReps: 10 },
+  { id: "day_mon", label: "Day 3 · Mon (C)", labelAr: "اليوم الثالث · الاثنين (ج)", exercises: [
+    { exerciseId: "ex_db_suitcase_squat", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_lunge", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_stiff_leg_deadlift", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_rear_fly", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_wrist_curl", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_db_hipthrust", targetSets: 2, targetReps: 10 },
+    { exerciseId: "ex_superman", targetSets: 2, targetReps: 20 },
+    { exerciseId: "ex_reverse_crunch", targetSets: 3, targetReps: 15 },
     { exerciseId: "ex_plank", targetSets: 1, targetReps: 45 },
-    { exerciseId: "ex_db_seated_press", targetSets: 2, targetReps: 10 },
-    { exerciseId: "ex_bench_reverse_fly", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_concentration_curl", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_dip", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_incline_shrug", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_prone_cobra", targetSets: 2, targetReps: 20 },
   ]},
-  { id: "day_thu", label: "Day 6 · Thu (Group B)", labelAr: "اليوم السادس · الخميس (مجموعة ب)", exercises: [
+  { id: "day_tue", label: "Day 4 · Tue (A)", labelAr: "اليوم الرابع · الثلاثاء (أ)", exercises: [
+    { exerciseId: "ex_db_bench", targetSets: 4, targetReps: 10 },
+    { exerciseId: "ex_pullup", targetSets: 4, targetReps: 8 },
+    { exerciseId: "ex_db_shrug", targetSets: 3, targetReps: 12 },
+    { exerciseId: "ex_db_calf_raise", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_lateral", targetSets: 4, targetReps: 15 },
+    { exerciseId: "ex_bicycle_crunch", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_plank", targetSets: 1, targetReps: 45 },
+  ]},
+  { id: "day_wed", label: "Day 5 · Wed (B)", labelAr: "اليوم الخامس · الأربعاء (ب)", exercises: [
+    { exerciseId: "ex_db_incline", targetSets: 3, targetReps: 8 },
     { exerciseId: "ex_chinup", targetSets: 4, targetReps: 8 },
-    { exerciseId: "ex_db_curtsy_lunge", targetSets: 4, targetReps: 10 },
-    { exerciseId: "ex_vup", targetSets: 4, targetReps: 15 },
-    { exerciseId: "ex_band_lateral", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_incline", targetSets: 2, targetReps: 8 },
-    { exerciseId: "ex_pike_pushup", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_db_seated_reverse_fly", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_curl", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_close_grip_pushup", targetSets: 2, targetReps: 15 },
-    { exerciseId: "ex_db_shrug", targetSets: 2, targetReps: 12 },
-    { exerciseId: "ex_reverse_hyper", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_db_hammer_curl", targetSets: 3, targetReps: 12 },
+    { exerciseId: "ex_dip", targetSets: 3, targetReps: 12 },
+    { exerciseId: "ex_db_calf_raise_toes_out", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_seated_press", targetSets: 3, targetReps: 10 },
+  ]},
+  { id: "day_thu", label: "Day 6 · Thu (C)", labelAr: "اليوم السادس · الخميس (ج)", exercises: [
+    { exerciseId: "ex_db_bulgarian_split_squat", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_suitcase_squat", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_curtsy_lunge", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_db_rdl_single", targetSets: 3, targetReps: 10 },
+    { exerciseId: "ex_bench_reverse_fly", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_db_reverse_wrist_curl", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_glute_bridge", targetSets: 2, targetReps: 15 },
+    { exerciseId: "ex_bird_dog", targetSets: 2, targetReps: 12 },
+    { exerciseId: "ex_vup", targetSets: 3, targetReps: 15 },
+    { exerciseId: "ex_plank", targetSets: 1, targetReps: 45 },
   ]},
 ];
 
@@ -883,7 +859,8 @@ export default function App() {
 
   const activeDay = template.find((d) => d.id === activeDayId);
   const activeDayIndex = visibleDays.findIndex((d) => d.id === activeDayId);
-  const isGroupA = activeDayIndex % 2 === 0;
+  const groupLetters = ["A", "B", "C"];
+  const activeGroup = activeDayIndex >= 0 ? groupLetters[activeDayIndex % 3] : null;
 
   const libraryMap = useMemo(() => Object.fromEntries(library.map((e) => [e.id, e])), [library]);
 
@@ -1058,9 +1035,11 @@ export default function App() {
             <p className="text-[10px] text-white/40 mt-1 font-mono">{doneSets}/{totalSets} {t(lang, "setsCompleted")}</p>
           </div>
 
-          {activeDayIndex >= 0 && (
-            <p className={`text-[10px] font-bold tracking-wide mt-2 ${isGroupA ? "text-[#E8B33D]" : "text-emerald-400"}`}>
-              {t(lang, isGroupA ? "groupAFocus" : "groupBFocus")}
+          {activeGroup && (
+            <p className={`text-[10px] font-bold tracking-wide mt-2 ${
+              activeGroup === "A" ? "text-[#E8B33D]" : activeGroup === "B" ? "text-emerald-400" : "text-sky-400"
+            }`}>
+              {t(lang, `group${activeGroup}Focus`)}
             </p>
           )}
         </div>

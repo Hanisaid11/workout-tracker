@@ -39,8 +39,9 @@ export const STRINGS = {
     trainingDaysLabel: "Training days per week",
     restDayLabel: "Rest day",
     settingsHint: "Changes apply to the day tabs above. Your logged history stays exactly as it was.",
-    groupAFocus: "Group A · Chest + Side Delts + Forearm focus",
-    groupBFocus: "Group B · Back + Legs + Abs focus",
+    groupAFocus: "Group A · Flat Chest + Back + Traps + Calves + Side Delts + Abs",
+    groupBFocus: "Group B · Upper Chest + Back + Biceps + Triceps + Front Delts + Calves",
+    groupCFocus: "Group C · Squat + Bulgarian + Lunge + RDL + Rear Delts + Forearms",
   },
   ar: {
     appEyebrow: "تمرين كامل الجسم · برنامج ستة أيام",
@@ -82,8 +83,9 @@ export const STRINGS = {
     trainingDaysLabel: "عدد أيام التمرين في الأسبوع",
     restDayLabel: "يوم الراحة",
     settingsHint: "يتم تطبيق التغييرات على أيام التمرين أعلاه، وسجلّ التمارين المحفوظ سابقًا يبقى كما هو.",
-    groupAFocus: "مجموعة أ · تركيز على الصدر والكتف الجانبي والساعد",
-    groupBFocus: "مجموعة ب · تركيز على الظهر والأرجل والبطن",
+    groupAFocus: "مجموعة أ · صدر مستوي + ظهر + ترابيز + سمانة + كتف جانبي + بطن",
+    groupBFocus: "مجموعة ب · صدر علوي + ظهر + باي + تراي + كتف أمامي + سمانة",
+    groupCFocus: "مجموعة ج · سكوات + بلغاري + لانجز + رومانيان ديدليفت + كتف خلفي + ساعد",
   },
 };
 
